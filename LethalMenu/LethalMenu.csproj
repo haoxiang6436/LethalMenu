@@ -58,6 +58,9 @@
     <Reference Include="Facepunch.Steamworks.Win64">
       <HintPath>Resources\BaseGame\Facepunch.Steamworks.Win64.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\NuGetPackages\microsoft.codecoverage\17.10.0-preview-24080-01\build\netstandard2.0\Mono.Cecil.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Resources\Newtonsoft.Json.dll</HintPath>
     </Reference>

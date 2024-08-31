@@ -1,3 +1,4 @@
+using LethalMenu.Language;
 using LethalMenu.Menu.Core;
 using LethalMenu.Util;
 using Steamworks.Ugc;
@@ -24,11 +25,14 @@ namespace LethalMenu.Menu.Popup
             UI.Toggle("LootManager.ShowShipItems", ref Settings.b_ShowShipItems, "General.Disable", "General.Enable");
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
+
+
+
             GUILayout.Space(20);
 
             foreach (var item in LethalMenu.items.Where(item => (Settings.b_ShowShipItems || !item.isInShipRoom) && !item.isHeld && !item.isPocketed)) items[item.name] = items.ContainsKey(item.name) ? items[item.name] + 1 : 1;
 
-            UI.ButtonGrid(items.Keys.ToList(), (string itemname) => itemname.Replace("(Clone)", "") + " x" + items[itemname], s_search, TeleportItem, 3);
+            UI.ButtonGrid(items.Keys.ToList(), (string itemname) => Localization.Localize("Items." + itemname.Replace("(Clone)", "")) + " x" + items[itemname], s_search, TeleportItem, 3);
 
             items.Clear();
 
@@ -42,7 +46,7 @@ namespace LethalMenu.Menu.Popup
             if (i != null)
             {
                 string itemName = itemname.Replace("(Clone)", ""); ;
-                HUDManager.Instance.DisplayTip("Lethal Menu", $"Teleported Item: {itemName}! Item Worth: {i.scrapValue}!");
+                HUDManager.Instance.DisplayTip("Lethal Menu", $"传送了物品: {Localization.Localize("Items." + itemName)}! 物品价值: {i.scrapValue}!");
                 Vector3 point = new Ray(LethalMenu.localPlayer.gameplayCamera.transform.position, LethalMenu.localPlayer.gameplayCamera.transform.forward).GetPoint(1f);
                 i.gameObject.transform.position = point;
                 i.startFallingPosition = point;

@@ -61,8 +61,7 @@ namespace LethalMenu.Menu.Tab
             GUILayout.EndVertical();
             
         }
-
-        private void DrawList<T>(string title, IEnumerable<T> objects, Func<T, bool> conditional, Func<T, string> label, ref Vector2 scroll, ref int instanceID) where T : Object
+        private void DrawList<T>(string title, IEnumerable<T> objects, Func<T, bool> conditional, Func<T,string> label, ref Vector2 scroll, ref int instanceID) where T : Object
         {
             float width = HackMenu.Instance.contentWidth * 0.3f - HackMenu.Instance.spaceFromLeft * 2;
             float height = HackMenu.Instance.contentHeight - 45;
@@ -82,7 +81,8 @@ namespace LethalMenu.Menu.Tab
 
                 if (instanceID == item.GetInstanceID()) GUI.contentColor = Settings.c_enemyESP.GetColor();
 
-                if (GUILayout.Button(label(item), GUI.skin.label)) instanceID = item.GetInstanceID();
+                if (GUILayout.Button(Localization.Localize("Enemies." + item.name.Replace("(Clone)", "")), GUI.skin.label)) instanceID = item.GetInstanceID();
+                //if (GUILayout.Button(label(item), GUI.skin.label)) instanceID = item.GetInstanceID();
 
                 GUI.contentColor = Settings.c_menuText.GetColor();
             }
@@ -90,7 +90,7 @@ namespace LethalMenu.Menu.Tab
             GUILayout.EndScrollView();
             GUILayout.EndVertical();
         }
-
+        // 敌人列表
         private void EnemyList()
         {
             
@@ -98,7 +98,7 @@ namespace LethalMenu.Menu.Tab
             {
                 case 0:
                     if (!LethalMenu.enemies.Exists(e => e.GetInstanceID() == selectedEnemy)) selectedEnemy = -1;
-                    DrawList<EnemyAI>("EnemyTab.EnemyList", LethalMenu.enemies, e => e.isEnemyDead, e => e.enemyType.name, ref scrollPos, ref selectedEnemy);
+                    DrawList<EnemyAI>("EnemyTab.EnemyList", LethalMenu.enemies, e => e.isEnemyDead,  e => e.enemyType.name, ref scrollPos, ref selectedEnemy);
                     break;
                 case 1:
                     if(!GameUtil.GetEnemyTypes().Exists(e => e.GetInstanceID() == selectedEnemyType)) selectedEnemyType = -1;
@@ -107,6 +107,7 @@ namespace LethalMenu.Menu.Tab
             }          
         }
 
+        // 常规操作
         private void GeneralActions()
         {
             UI.Header("General.GeneralActions");
@@ -120,7 +121,7 @@ namespace LethalMenu.Menu.Tab
             if (Hack.EnemyControl.IsEnabled())
                 UI.Button("EnemyTab.StopEnemyControl", () => { Hack.EnemyControl.SetToggle(false); });
         }
-
+        // 敌人状态
         private void EnemyActions()
         {
             UI.Header("EnemyTab.EnemyStatus", true);
@@ -157,7 +158,7 @@ namespace LethalMenu.Menu.Tab
             UI.Hack(Hack.EnemyControl, "EnemyTab.ControlEnemy", enemy);
             UI.Button("EnemyTab.Control", () => { Hack.EnemyControl.Execute(enemy); });
         }
-        
+        // 生成敌人
         private void EnemySpawnerContent()
         {
             if (!(bool)StartOfRound.Instance || LethalMenu.localPlayer == null) return;
@@ -173,7 +174,7 @@ namespace LethalMenu.Menu.Tab
             UI.Checkbox("EnemyTab.SpawnOutside", ref b_spawnOutside);
             UI.Button("EnemyTab.Spawn", () => HackExecutor.SpawnEnemy(type, int.Parse(s_spawnAmount), b_spawnOutside));
         }
-
+        // 获取敌人
         private EnemyAI GetSelectedEnemy()
         {
             return LethalMenu.enemies.Find(x => x.GetInstanceID() == selectedEnemy);

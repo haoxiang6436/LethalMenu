@@ -1,3 +1,4 @@
+using LethalMenu.Language;
 using LethalMenu.Manager;
 using LethalMenu.Menu.Core;
 using LethalMenu.Types;
@@ -42,7 +43,7 @@ namespace LethalMenu.Menu.Popup
 
             var suits = suitunlockables.Where(u => u.GetItem().unlockableName.Contains(s_search, StringComparison.OrdinalIgnoreCase)).ToList();
 
-            UI.ButtonGrid(suits, (x) => x.GetItem().unlockableName, s_search, (x) => Hack.UnlockUnlockableSuit.Execute(x, Settings.b_WearBuy, true, true), 3);
+            UI.ButtonGrid(suits, (x) => Localization.Localize("UnlockableItems." + x.GetItem().unlockableName) , s_search, (x) => Hack.UnlockUnlockableSuit.Execute(x, Settings.b_WearBuy, true, true), 3);
 
             GUILayout.EndScrollView();
             GUI.DragWindow();

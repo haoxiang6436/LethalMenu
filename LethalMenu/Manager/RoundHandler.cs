@@ -11,6 +11,7 @@ using Random = UnityEngine.Random;
 using Steamworks;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LethalMenu.Language;
 
 
 namespace LethalMenu.Manager
@@ -118,12 +119,12 @@ namespace LethalMenu.Manager
             unlockable.Buy(GetTerminal().groupCredits);
             if (all)
             {
-                HUDManager.Instance.DisplayTip("Lethal Menu", $"Unlocked All Cosmetics!");
+                HUDManager.Instance.DisplayTip("Lethal Menu", $"已解锁所有内容!");
                 return;
             }
             if (enabled)
             {
-                HUDManager.Instance.DisplayTip("Lethal Menu", $"Unlocked Cosmetic: {unlockable}!");
+                HUDManager.Instance.DisplayTip("Lethal Menu", $"已解锁内容: { Localization.Localize("UnlockableItems." + unlockable)}!");
                 return;
             }
         }
@@ -135,7 +136,7 @@ namespace LethalMenu.Manager
             {
                 unlockablesuit.Buy(GetTerminal().groupCredits);
                 unlockablesuit.SetLocked(true);
-                HUDManager.Instance.DisplayTip("Lethal Menu", $"Unlocked Suit: {unlockablesuit}!");
+                HUDManager.Instance.DisplayTip("Lethal Menu", $"已解锁套装: {Localization.Localize("UnlockableItems." + unlockablesuit)}!");
             }
             if (wearbuy) UnlockableSuit.SwitchSuitForPlayer(LethalMenu.localPlayer, (int)unlockablesuit, sound);
         }
@@ -151,7 +152,7 @@ namespace LethalMenu.Manager
             if (!(bool)StartOfRound.Instance) return;
             if (!StartOfRound.Instance.inShipPhase)
             {
-                HUDManager.Instance.DisplayTip("Lethal Menu", $"You must be in orbit!");
+                HUDManager.Instance.DisplayTip("Lethal Menu", $"你一直在轨道上!");
                 return;
             }
             StartOfRound.Instance.ResetShip();

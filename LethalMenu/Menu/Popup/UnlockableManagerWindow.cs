@@ -1,3 +1,4 @@
+using LethalMenu.Language;
 using LethalMenu.Menu.Core;
 using LethalMenu.Types;
 using LethalMenu.Util;
@@ -26,7 +27,7 @@ namespace LethalMenu.Menu.Popup
             UI.Button("UnlockableManager.UnlockAll", () => unlockables.ForEach(x => Hack.UnlockUnlockable.Execute(x, true, false)));
             GUILayout.EndHorizontal();
 
-            UI.ButtonGrid(unlockables, (u) => u.GetItem().unlockableName, s_search, (u) => Hack.UnlockUnlockable.Execute(u, false, true), 3);
+            UI.ButtonGrid(unlockables, (u) => Localization.Localize("UnlockableItems." + u.GetItem().unlockableName), s_search, (u) => Hack.UnlockUnlockable.Execute(u, false, true), 3);
 
             GUILayout.EndScrollView();
             GUI.DragWindow();

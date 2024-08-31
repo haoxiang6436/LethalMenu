@@ -513,7 +513,7 @@ namespace LethalMenu
                 if (doorLock != null && doorLock.isLocked && !doorLock.isPickingLock)
                 {
                     doorLock.UnlockDoorSyncWithServer();
-                    HUDManager.Instance.DisplayTip("Lethal Menu", "Door Unlocked");
+                    HUDManager.Instance.DisplayTip("Lethal Menu", "门已解锁");
                 }
             }
             else
@@ -531,7 +531,7 @@ namespace LethalMenu
                         else if (obj.name == "Landmine") type = "Landmine";
                         else type = obj.name;
                         obj.CallFunctionFromTerminal();
-                        HUDManager.Instance.DisplayTip("Lethal Menu", type + " ( " + obj.objectCode + " ) has been called from the terminal.");
+                        HUDManager.Instance.DisplayTip("Lethal Menu", type + " ( " + obj.objectCode + " ) 有人从终端打来电话.");
                     }
                 }
             }
@@ -543,7 +543,7 @@ namespace LethalMenu
             {
                 door.UnlockDoorSyncWithServer();
             }
-            HUDManager.Instance.DisplayTip("Lethal Menu", "All Doors Unlocked");
+            HUDManager.Instance.DisplayTip("Lethal Menu", "所有门已解锁");
         }
 
         public static void ModExperience(int amt, ActionType type)
@@ -568,7 +568,7 @@ namespace LethalMenu
         }
 
         public static void UnloadMenu() => LethalMenu.Instance.Unload();
-        public static void NotifyDeath(PlayerControllerB died, CauseOfDeath cause) => HUDManager.Instance.DisplayTip("Lethal Menu", died.playerUsername + " has died from " + cause.ToString());
+        public static void NotifyDeath(PlayerControllerB died, CauseOfDeath cause) => HUDManager.Instance.DisplayTip("Lethal Menu", died.playerUsername + " 死于 " + cause.ToString());
         public static void SpawnEnemy(EnemyType type, int num, bool outside) => RoundHandler.SpawnEnemy(type, num, outside);
         public static void SpawnMaskedEnemy() => RoundHandler.SpawnMimicFromMasks();
         public static void ToggleAllLandmines() => RoundHandler.ToggleAllLandmines();

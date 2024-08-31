@@ -1,3 +1,4 @@
+using LethalMenu.Language;
 using LethalMenu.Manager;
 using LethalMenu.Menu.Core;
 using LethalMenu.Util;
@@ -22,7 +23,7 @@ namespace LethalMenu.Menu.Popup
             {
                 UI.Header("MoonManager.CurrentMoon");
                 UI.Label("MoonManager.Moon", StartOfRound.Instance.currentLevel.PlanetName);
-                UI.Label("MoonManager.Weather", StartOfRound.Instance.currentLevel.currentWeather.ToString());
+                UI.Label("MoonManager.Weather",Localization.Localize("weather." + StartOfRound.Instance.currentLevel.currentWeather.ToString()));
                 UI.Label("MoonManager.Risk", StartOfRound.Instance.currentLevel.riskLevel);
                 
                 UI.Header("MoonManager.ChangeMoon", true);
@@ -37,11 +38,11 @@ namespace LethalMenu.Menu.Popup
                 {
                     if (x.levelID == StartOfRound.Instance.currentLevel.levelID) continue;
 
-                    string weather = x.currentWeather == LevelWeatherType.None ? "" : $" ({x.currentWeather})";
+                    string weather = x.currentWeather == LevelWeatherType.None ? "" : $" ({Localization.Localize("weather." + x.currentWeather)})";
 
                     UI.Button($"{x.PlanetName}{weather}", () => {
                         RoundHandler.ChangeMoon(x.levelID);
-                        HUDManager.Instance.DisplayTip($"Lethal Menu", $"Changed moon to {x.PlanetName}!");
+                        HUDManager.Instance.DisplayTip($"Lethal Menu", $"Ç°ÍùÐÇÇò£º {x.PlanetName}! ÌìÆø£º{Localization.Localize("weather." + StartOfRound.Instance.currentLevel.currentWeather.ToString())}");
                     }, "MoonManager.Visit");
                 }
             }

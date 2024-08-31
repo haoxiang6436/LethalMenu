@@ -119,7 +119,7 @@ namespace LethalMenu.Cheats
             if (!EnemyControllers.ContainsKey(enemy.GetType()))
             {
                 StopControl();
-                HUDManager.Instance.DisplayTip("Lethal Menu", $"No Controller for enemy :C");
+                HUDManager.Instance.DisplayTip("Lethal Menu", $"没有控制器的敌人 :C");
             }
 
             if (!(bool)enemy.agent) return;

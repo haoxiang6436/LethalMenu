@@ -32,14 +32,14 @@ namespace LethalMenu.Handler
             player.isInElevator = elevator;
             player.isInHangarShipRoom = ship;
             player.isInsideFactory = factory;
-            HUDManager.Instance.DisplayTip("Lethal Menu", "Teleported");
+            HUDManager.Instance.DisplayTip("Lethal Menu", "传送");
 
         }
 
         public void SavePosition()
         {
             Settings.v_savedLocation = player.transform.position;
-            HUDManager.Instance.DisplayTip("Lethal Menu", "Teleport Position Saved");
+            HUDManager.Instance.DisplayTip("Lethal Menu", "传送位置已保存");
         }
 
         public void TeleportShip()
@@ -51,7 +51,7 @@ namespace LethalMenu.Handler
         {
             if(Settings.v_savedLocation == Vector3.zero)
             {
-                HUDManager.Instance.DisplayTip("Lethal Menu", "No Saved Position", true);
+                HUDManager.Instance.DisplayTip("Lethal Menu", "无保存位置", true);
                 return;
             }
 

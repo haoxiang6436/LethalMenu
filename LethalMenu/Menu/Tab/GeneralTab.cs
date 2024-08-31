@@ -35,7 +35,7 @@ namespace LethalMenu.Menu.Tab
 
             GUILayout.BeginHorizontal();
             GUILayout.Label(avatar, GUILayout.Width(100), GUILayout.Height(100));
-            GUILayout.Label("Thank you for using Lethal Menu.\n\nIf you have any suggestions please leave a comment on the forum post.\nAny bugs you find please provide some steps to recreate the issue and leave a comment.");
+            GUILayout.Label("感谢使用LethalMenu\n\n如果你有任何建议，请在论坛帖子上留言\n如果你发现任何漏洞，请提供一些重现问题的步骤并留言\n");
             GUILayout.EndHorizontal();
 
             GUILayout.Space(20);
@@ -45,7 +45,7 @@ namespace LethalMenu.Menu.Tab
                 GUIStyle style = new GUIStyle(GUI.skin.label);
 
                 if (line.StartsWith("v")) style.fontStyle = FontStyle.Bold;
-                GUILayout.Label(line.StartsWith("v") ? "Changelog " + line : line, style);
+                GUILayout.Label(line.StartsWith("v") ? "更新日志： " + line : line, style);
             }
 
             GUILayout.EndScrollView();

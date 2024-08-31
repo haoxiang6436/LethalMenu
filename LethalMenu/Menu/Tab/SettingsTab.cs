@@ -169,7 +169,8 @@ namespace LethalMenu.Menu.Tab
             {
                 EnemyAIType type = types[i];
                 if(type == EnemyAIType.Unknown) continue;
-                UI.Checkbox(type.ToString(), type.IsESPEnabled(), () => type.ToggleESP());
+                //UI.Checkbox(type.ToString(), type.IsESPEnabled(), () => type.ToggleESP());
+                UI.Checkbox(Localization.Localize("Enemies." + type.ToString()), type.IsESPEnabled(), () => type.ToggleESP());
             }
             GUILayout.EndVertical();
             GUILayout.BeginVertical(GUILayout.Width((f_leftWidth * 0.465f)));
@@ -177,7 +178,8 @@ namespace LethalMenu.Menu.Tab
             {
                 EnemyAIType type = types[i];
                 if (type == EnemyAIType.Unknown) continue;
-                UI.Checkbox(type.ToString(), type.IsESPEnabled(), () => type.ToggleESP());
+                //UI.Checkbox(type.ToString(), type.IsESPEnabled(), () => type.ToggleESP());
+                UI.Checkbox(Localization.Localize("Enemies." + type.ToString()), type.IsESPEnabled(), () => type.ToggleESP());
             }
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
@@ -280,13 +282,13 @@ namespace LethalMenu.Menu.Tab
 
                 ButtonControl bind = hack.GetKeyBind();
 
-                string kb = hack.HasKeyBind() ? bind.GetType() == typeof(KeyControl) ? ((KeyControl)bind).keyCode.ToString() : bind.displayName : "None";
+                string kb = hack.HasKeyBind() ? bind.GetType() == typeof(KeyControl) ? ((KeyControl)bind).keyCode.ToString() : bind.displayName : "-/-";
 
-                GUILayout.Label(hack.ToString());
+                GUILayout.Label(Localization.Localize("SettingsTab."+ hack.ToString()));
                 GUILayout.FlexibleSpace();
 
                 if (hack.HasKeyBind() && hack != Hack.OpenMenu && hack != Hack.UnlockDoorAction && GUILayout.Button("-")) hack.RemoveKeyBind();
-                string btnText = hack.IsWaiting() ? "Waiting" : kb;
+                string btnText = hack.IsWaiting() ? "等待按下..." : kb;
                 if (GUILayout.Button(btnText, GUILayout.Width(85))) KBUtil.BeginChangeKeyBind(hack);
                
                 GUILayout.EndHorizontal();

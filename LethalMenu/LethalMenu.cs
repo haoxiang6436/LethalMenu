@@ -149,7 +149,7 @@ namespace LethalMenu
             {
                 if (Event.current.type == EventType.Repaint)
                 {
-                    string LethalMenuTitle = $"Lethal Menu {Settings.version} By IcyRelic, and Dustin | Discord.gg/HzxykGKA6P |";
+                    string LethalMenuTitle = $"Lethal Menu {Settings.version} By IcyRelic, and Dustin | 开源项目严禁二次倒卖 | 翻译：鲨sa鱼的角 | ";
                     LethalMenuTitle += Settings.b_FPSCounter ? $" FPS: {fps}" : "";
                     if (Settings.b_Panic) LethalMenuTitle = "";
                     VisualUtil.DrawString(new Vector2(5f, 2f), LethalMenuTitle, Settings.c_primary, centered: false, bold: true, fontSize: 14);

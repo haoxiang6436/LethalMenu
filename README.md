@@ -1,6 +1,12 @@
 # Lethal Menu
 <sup>A Lethal Company Cheat By [IcyRelic](https://github.com/icyrelic), and [Dustin](https://github.com/Dustin21335) | [UnkownCheats Thread](https://www.unknowncheats.me/forum/lethal-company/615575-lethal-menu-lethal-company-cheat.html) | [Discord Server](https://discord.gg/D6wuXEnfhP)</sup>
 
+## 使用指南
+<p>
+	<h1>通过SharpMonoInjector注入到游戏进程</h1>
+  <img src="[https://i.imgur.com/H5FEQMr.png](https://github.com/user-attachments/assets/b9aec332-f3b8-42d3-a03e-834ed2eab615)" width="445" height="255" />
+</p>
+
 #### Screenshots
 <p>
   <img src="https://i.imgur.com/H5FEQMr.png" width="445" height="255" />

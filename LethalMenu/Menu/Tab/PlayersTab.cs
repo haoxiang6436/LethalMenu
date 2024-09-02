@@ -3,6 +3,7 @@ using LethalMenu.Language;
 using LethalMenu.Menu.Core;
 using LethalMenu.Util;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using UnityEngine;
@@ -52,12 +53,14 @@ namespace LethalMenu.Menu.Tab
                 if (selectedPlayer == (int)player.playerClientId) GUI.contentColor = Settings.c_playerESP.GetColor();
 
                 name = player.playerUsername;
-
-
                 if (LethalMenu.Instance.LMUsers.Any(u => u.SteamId == player.playerSteamId.ToString()) && Settings.b_DisplayLMUsers)
                 {
                     var user = LethalMenu.Instance.LMUsers.FirstOrDefault(u => u.SteamId == player.playerSteamId.ToString());
                     name = $"[LethalMenu {user.Version}] {player.playerUsername}";
+                }
+                if (player.isPlayerDead && player.deadBody != null)
+                {
+                    name += $"[{Settings.c_deadPlayer.AsString("PlayerTab.DeadPrefix")}]";
                 }
 
                 if (GUILayout.Button(name, GUI.skin.label)) selectedPlayer = (int)player.playerClientId;
@@ -99,29 +102,40 @@ namespace LethalMenu.Menu.Tab
             UI.Header(name);
             UI.Header("PlayerTab.PlayerInfo");
 
-            UI.Label("PlayerTab.SteamId", player.playerSteamId.ToString());
-            UI.Label("PlayerTab.PlayerId", player.playerClientId.ToString());
-            UI.Label("PlayerTab.PlayerStatus", player.isPlayerDead ? "PlayerTab.DeadPrefix" : "PlayerTab.AlivePrefix");
-            UI.Label("PlayerTab.PlayerHealth", player.health.ToString());
-            UI.Label("PlayerTab.IsHost", (player.actualClientId == 0 ? "True" : "False"));
-            UI.Label("PlayerTab.IsInFactory", player.isInsideFactory.ToString());
-            UI.Label("PlayerTab.IsInShip", player.isInHangarShipRoom.ToString());
-            UI.Label("PlayerTab.Insanity", player.insanityLevel.ToString());
+            //UI.Label("PlayerTab.SteamId", player.playerSteamId.ToString());
+            //UI.Label("PlayerTab.PlayerId", player.playerClientId.ToString());
+            //UI.Label("PlayerTab.PlayerStatus", player.isPlayerDead ? "PlayerTab.DeadPrefix" : "PlayerTab.AlivePrefix");
+            //UI.Label("PlayerTab.PlayerHealth", player.health.ToString());
+            //UI.Label("PlayerTab.IsHost", (player.actualClientId == 0 ? "True" : "False"));
+            //UI.Label("PlayerTab.IsInFactory", player.isInsideFactory.ToString());
+            //UI.Label("PlayerTab.IsInShip", player.isInHangarShipRoom.ToString());
+            //UI.Label("PlayerTab.Insanity", player.insanityLevel.ToString());
+
+            UI.Label($"{Localization.Localize("PlayerTab.SteamId")} {Localization.Localize(player.playerSteamId.ToString())}");
+            UI.Label($"{Localization.Localize("PlayerTab.PlayerId")} {Localization.Localize(player.playerClientId.ToString())}");
+            UI.Label($"{Localization.Localize("PlayerTab.PlayerStatus")} {Localization.Localize(player.isPlayerDead ? "PlayerTab.DeadPrefix" : "PlayerTab.AlivePrefix")}");
+            UI.Label($"{Localization.Localize("PlayerTab.PlayerHealth")} {Localization.Localize(player.health.ToString())}");
+            UI.Label($"{Localization.Localize("PlayerTab.IsHost")} {Localization.Localize(player.actualClientId == 0 ? "True" : "False")}");
+            UI.Label($"{Localization.Localize("PlayerTab.IsInFactory")} {Localization.Localize(player.isInsideFactory.ToString())}");
+            UI.Label($"{Localization.Localize("PlayerTab.IsInShip")} {Localization.Localize(player.isInHangarShipRoom.ToString())}");
+            UI.Label($"{Localization.Localize("PlayerTab.Insanity")} {Localization.Localize(player.insanityLevel.ToString())}");
 
             GrabbableObject[] items = player.ItemSlots;
-
+            List<String> PlayerInventoryList = new List<string>();
             UI.Header("PlayerTab.Inventory", true);
             foreach (GrabbableObject item in items)
             {
                 if (item == null) continue;
-
-                UI.Label("", item.name);
+                PlayerInventoryList.Add(Localization.Localize("Items." + item.name.Replace("(Clone)", "")));
+                //PlayerInventoryListStr += Localization.Localize("Items." + item.name.Replace("(Clone)", ""))+" | ";
             }
+            UI.Label(string.Join(" | ", PlayerInventoryList));
 
-            UI.Header("General.GeneralActions", true);
-            UI.Hack(Hack.Teleport, "PlayerTab.TeleportTo", player.transform.position, player.isInElevator, player.isInHangarShipRoom, player.isInsideFactory);
-            UI.Hack(Hack.KillPlayer, "PlayerTab.Kill", player);
+            UI.Header("General.FriendlyActions", true);
             UI.Hack(Hack.HealPlayer, "PlayerTab.Heal", player);
+            UI.Hack(Hack.Teleport, "PlayerTab.TeleportTo", player.transform.position, player.isInElevator, player.isInHangarShipRoom, player.isInsideFactory);
+            UI.Header("General.SpoofActions", true);
+            UI.Hack(Hack.KillPlayer, "PlayerTab.Kill", player);
             UI.Hack(Hack.LightningStrikePlayer, ["PlayerTab.Strike", "General.HostStormyTag"], player);
             UI.Hack(Hack.SpiderWebPlayer, "PlayerTab.SpiderWeb", player);
             UI.Hack(Hack.TeleportEnemy, "PlayerTab.TeleportAllEnemies", player, LethalMenu.enemies.ToArray());

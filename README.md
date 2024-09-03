@@ -1,12 +1,13 @@
 # Lethal Menu
 <sup>A Lethal Company Cheat By [IcyRelic](https://github.com/icyrelic), and [Dustin](https://github.com/Dustin21335) | [UnkownCheats Thread](https://www.unknowncheats.me/forum/lethal-company/615575-lethal-menu-lethal-company-cheat.html) | [Discord Server](https://discord.gg/D6wuXEnfhP)</sup>
 
-#### Screenshots
-<p>
-  <img src="https://i.imgur.com/H5FEQMr.png" width="445" height="255" />
-  <img src="https://i.imgur.com/D7srqbi.png" width="445" height="255" />
-</p>
-
+#### 游戏内截图(v1.4.4)
+<div style="width='100%'; display='flex';" >
+<img src="https://github.com/user-attachments/assets/ea63e346-d76c-4940-82f6-b83fe24edde3" width="70%" />
+<img src="https://github.com/user-attachments/assets/2ac02f79-d9ed-46fb-98ac-d895e1a18a16" width="70%"  />
+<img src="https://github.com/user-attachments/assets/589455c3-4a50-4828-bbd6-9eefce9dc623" width="70%"  />
+	
+</div>
 
 ## Issue Tracking
 

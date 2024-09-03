@@ -99,6 +99,8 @@ namespace LethalMenu
         Disconnect,
         Message,
         ResetShip,
+        OpenAllBigDoor,
+        CloseAllBigDoor,
 
         /** Troll Tab **/
         ToggleShipLights,
@@ -351,6 +353,8 @@ namespace LethalMenu
             {Hack.TeleportOneItem, (Action) HackExecutor.TeleportOneItem},
             {Hack.EjectEveryone, (Action) HackExecutor.EjectEveryone},
             {Hack.JoinLobby, (Action<SteamId>) HackExecutor.JoinLobby},
+            {Hack.OpenAllBigDoor, (Action) HackExecutor.OpenAllBigDoor},
+            {Hack.CloseAllBigDoor, (Action) HackExecutor.CloseAllBigDoor},
             {Hack.Disconnect, (Action) HackExecutor.Disconnect},
             {Hack.VoteShipLeaveEarly, (Action) HackExecutor.VoteShipLeaveEarly},
             {Hack.UnlockAllDoors, (Action) HackExecutor.UnlockAllDoors},
@@ -515,7 +519,7 @@ namespace LethalMenu
             PlayerControllerB player = GameNetworkManager.Instance.localPlayerController;
             if (player == null) return;
             RaycastHit hitInfo;
-            if (Physics.Raycast(new Ray(CameraManager.ActiveCamera.transform.position, CameraManager.ActiveCamera.transform.forward), out hitInfo, 5f, LayerMask.GetMask("InteractableObject")))
+            if (Physics.Raycast(new Ray(CameraManager.ActiveCamera.transform.position, CameraManager.ActiveCamera.transform.forward), out hitInfo, 10f, LayerMask.GetMask("InteractableObject")))
             {
                 DoorLock doorLock = hitInfo.transform.GetComponent<DoorLock>();
                 if (doorLock != null && doorLock.isLocked && !doorLock.isPickingLock)
@@ -526,7 +530,8 @@ namespace LethalMenu
             }
             else
             {
-                LethalMenu.turrets.ForEach(turret => turret.gameObject.GetComponent<TerminalAccessibleObject>().CallFunctionFromTerminal());
+                // 关闭所有炮塔
+                //LethalMenu.turrets.ForEach(turret => turret.gameObject.GetComponent<TerminalAccessibleObject>().CallFunctionFromTerminal());
                 foreach (TerminalAccessibleObject obj in LethalMenu.allTerminalObjects)
                 {
                     Vector3 directionToObject = obj.transform.position - player.transform.position;
@@ -534,12 +539,20 @@ namespace LethalMenu
                     if (angle < 60f && directionToObject.magnitude < 5f)
                     {
                         string type = "Terminal Object";
-                        if (obj.isBigDoor) type = "Big Door";
-                        else if (obj.name == "TurretScript") type = "Turret";
+                        if (obj.isBigDoor) {
+                            type = "Big Door";
+                            obj.SetDoorToggleLocalClient();
+                        }
+                        else if (obj.name == "TurretScript") {
+                            type = "Turret";
+                            obj.CallFunctionFromTerminal();
+                            //obj.turretActive = true;
+                            //LethalMenu.turrets.FindLast(turret=>turret.objectCode == obj.objectCode);
+                            //LethalMenu.turrets.ForEach(turret => turret.turretActive = !Hack.ToggleAllTurrets.IsEnabled());
+                        }
                         else if (obj.name == "Landmine") type = "Landmine";
                         else type = obj.name;
-                        obj.CallFunctionFromTerminal();
-                        HUDManager.Instance.DisplayTip("Lethal Menu", type + " ( " + obj.objectCode + " ) 有人从终端打来电话.");
+                        HUDManager.Instance.DisplayTip("Lethal Menu", Localization.Localize("SettingsTab." + type) + " (" + obj.objectCode + ") ");
                     }
                 }
             }
@@ -658,6 +671,8 @@ namespace LethalMenu
         public static void TeleportOneItem() => RoundHandler.TeleportOneItem();
         public static void EjectEveryone() => StartOfRound.Instance.ManuallyEjectPlayersServerRpc();
         public static void JoinLobby(SteamId id) => RoundHandler.JoinLobby(id);
+        public static void OpenAllBigDoor() => LethalMenu.bigDoors.ForEach(door => door.SetDoorOpenServerRpc(true));
+        public static void CloseAllBigDoor() => LethalMenu.bigDoors.ForEach(door => door.SetDoorOpenServerRpc(false));
         public static void Disconnect() => RoundHandler.Disconnect();
         public static void VoteShipLeaveEarly() => TimeOfDay.Instance.VoteShipToLeaveEarly();
         public static void BerserkAllTurrets() => RoundHandler.BerserkAllTurrets();

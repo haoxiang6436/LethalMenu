@@ -19,6 +19,7 @@ namespace LethalMenu.Menu.Tab
         public static string s_message = "";
         public static int i_messageindex = 0;
         private string s_joinlobbyid = "";
+        private string s_taggle = "";
         private Vector2 scrollPos = Vector2.zero;
         private Vector2 scrollPos2 = Vector2.zero;
 
@@ -107,6 +108,9 @@ namespace LethalMenu.Menu.Tab
                 new UIButton("General.Execute", () => { if (ulong.TryParse(s_joinlobbyid, out var id)) Hack.JoinLobby.Execute(new SteamId { Value = id });
             }));
 
+
+            UI.Hack(Hack.OpenAllBigDoor, "ServerTab.OpenAllBigDoor");
+            UI.Hack(Hack.CloseAllBigDoor, "ServerTab.CloseAllBigDoor");
             UI.Hack(Hack.Disconnect, "ServerTab.Disconnect");
             UI.Hack(Hack.ShowOffensiveLobbyNames, "ServerTab.ShowOffensiveLobbyNames");
             UI.Hack(Hack.NeverLoseScrap, "ServerTab.NeverLoseScrap");

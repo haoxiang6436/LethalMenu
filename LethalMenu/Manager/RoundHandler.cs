@@ -12,7 +12,10 @@ using Steamworks;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using LethalMenu.Language;
-
+using System.Runtime.CompilerServices;
+using static System.Collections.Specialized.BitVector32;
+using LethalMenu.CustomCompany.Behaviour;
+//using System.Diagnostics;
 
 namespace LethalMenu.Manager
 {
@@ -28,11 +31,11 @@ namespace LethalMenu.Manager
             Terminal terminal = GetTerminal();
 
             if (terminal == null) return;
-            
+
             int newAmt = amount;
 
-            if(type == ActionType.Add) newAmt = terminal.groupCredits + amount;
-            if(type == ActionType.Remove) newAmt = terminal.groupCredits - amount;
+            if (type == ActionType.Add) newAmt = terminal.groupCredits + amount;
+            if (type == ActionType.Remove) newAmt = terminal.groupCredits - amount;
 
             terminal.SyncGroupCreditsServerRpc(newAmt, terminal.numberOfItemsInDropship);
         }
@@ -112,7 +115,7 @@ namespace LethalMenu.Manager
         {
             if ((bool)StartOfRound.Instance) StartOfRound.Instance.EndGameServerRpc(-1);
         }
-        
+
         public static void BuyUnlockable(Unlockable unlockable, bool all, bool enabled)
         {
             if (!(bool)StartOfRound.Instance) return;
@@ -124,7 +127,7 @@ namespace LethalMenu.Manager
             }
             if (enabled)
             {
-                HUDManager.Instance.DisplayTip("Lethal Menu", $"已解锁内容: { Localization.Localize("UnlockableItems." + unlockable)}!");
+                HUDManager.Instance.DisplayTip("Lethal Menu", $"已解锁内容: {Localization.Localize("UnlockableItems." + unlockable)}!");
                 return;
             }
         }
@@ -201,10 +204,10 @@ namespace LethalMenu.Manager
         public static void ModScrap(int value, int type)
         {
             if (!(bool)StartOfRound.Instance || !(bool)RoundManager.Instance) return;
-            if (type == 0)RoundManager.Instance.scrapAmountMultiplier = value;
+            if (type == 0) RoundManager.Instance.scrapAmountMultiplier = value;
             if (type == 1) RoundManager.Instance.scrapValueMultiplier = value;
         }
-        
+
         public static void ForceTentacleAttack()
         {
             DepositItemsDesk desk = ((DepositItemsDesk)Object.FindObjectOfType(typeof(DepositItemsDesk)));
@@ -244,7 +247,7 @@ namespace LethalMenu.Manager
 
         public static void TeleportOneItem()
         {
-            GrabbableObject itemToTeleport = LethalMenu.items.Where(i => !i.isHeld && !i.isPocketed && !i.isInShipRoom).OrderBy(i => Random.value) .FirstOrDefault();
+            GrabbableObject itemToTeleport = LethalMenu.items.Where(i => !i.isHeld && !i.isPocketed && !i.isInShipRoom).OrderBy(i => Random.value).FirstOrDefault();
             if (itemToTeleport != null)
             {
                 Vector3 point = new Ray(LethalMenu.localPlayer.gameplayCamera.transform.position, LethalMenu.localPlayer.gameplayCamera.transform.forward).GetPoint(1f);
@@ -346,7 +349,7 @@ namespace LethalMenu.Manager
 
             int num = Random.Range(5, 15);
 
-            Debug.Log("Spawning " + num + " " + spawnable.prefabToSpawn.name);
+            UnityEngine.Debug.Log("Spawning " + num + " " + spawnable.prefabToSpawn.name);
 
             for (int i = 0; i < num; i++)
             {
@@ -380,7 +383,7 @@ namespace LethalMenu.Manager
 
         public static void ChangeMoon(int levelID)
         {
-            if(!(bool) StartOfRound.Instance) return;
+            if (!(bool)StartOfRound.Instance) return;
             StartOfRound.Instance.ChangeLevelServerRpc(levelID, GetTerminal().groupCredits);
         }
         public static void FixAllValves() => LethalMenu.steamValves.ForEach(v => v.FixValveServerRpc());

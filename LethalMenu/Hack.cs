@@ -1,4 +1,5 @@
 ﻿using GameNetcodeStuff;
+using LethalMenu.CustomCompany.Behaviour;
 using LethalMenu.Handler;
 using LethalMenu.Language;
 using LethalMenu.Manager;
@@ -129,6 +130,8 @@ namespace LethalMenu
         EjectEveryone,
         DeleteTerminal,
         OpenShipDoorSpace,
+        OpenShipDoor,
+        CloseShipDoor,
         BerserkAllTurrets,
 
         /** Visuals Tab **/
@@ -156,6 +159,7 @@ namespace LethalMenu
         /** Player Tab **/
         KillPlayer,
         HealPlayer,
+        TeleportPlayer,
         LightningStrikePlayer,
         DeathNotifications,
         DeathNotify,
@@ -177,6 +181,7 @@ namespace LethalMenu
             Hack.ModifyCredits,
             Hack.KillPlayer,
             Hack.HealPlayer,
+            Hack.TeleportPlayer,
             Hack.LightningStrikePlayer,
             Hack.Experience,
             Hack.Teleport,
@@ -315,12 +320,15 @@ namespace LethalMenu
             {Hack.ToggleAllTurrets, (Action) HackExecutor.ToggleAllTurrets},
             {Hack.KillPlayer, (Action<PlayerControllerB>) HackExecutor.KillPlayer},
             {Hack.HealPlayer, (Action<PlayerControllerB>) HackExecutor.HealPlayer},
+            {Hack.TeleportPlayer, (Action<PlayerControllerB>) HackExecutor.TeleportPlayer},
             {Hack.LightningStrikePlayer, (Action<PlayerControllerB>) HackExecutor.LightningStrikePlayer},
             {Hack.UnlockDoorAction, (Action) HackExecutor.UnlockDoor},
             {Hack.ToggleAllESP, (Action) HackExecutor.ToggleAllESP},
             {Hack.DeathNotify, (Action<PlayerControllerB, CauseOfDeath>) HackExecutor.NotifyDeath},
             {Hack.SpectatePlayer, (Action<PlayerControllerB>) HackExecutor.SpectatePlayer},
             {Hack.MiniCam, (Action<PlayerControllerB>) HackExecutor.MiniCam},
+            {Hack.OpenShipDoor, (Action) HackExecutor.OpenShipDoor},
+            {Hack.CloseShipDoor, (Action) HackExecutor.CloseShipDoor},
             {Hack.UnlockUnlockable, (Action<Unlockable, bool, bool>) HackExecutor.UnlockUnlockable},
             {Hack.UnlockUnlockableSuit, (Action<Unlockable, bool, bool, bool>) HackExecutor.UnlockUnlockableSuit},
             {Hack.FlickerLights, (Action) HackExecutor.FlickerLights},
@@ -546,6 +554,33 @@ namespace LethalMenu
             HUDManager.Instance.DisplayTip("Lethal Menu", "所有门已解锁");
         }
 
+        public static void CloseShipDoor()
+        {
+            Debug.Log("关舱门");
+            HangarShipDoor hangarShipDoor = UnityEngine.Object.FindObjectOfType<HangarShipDoor>();
+            hangarShipDoor.PlayDoorAnimation(true);
+            hangarShipDoor.overheated = true;
+            hangarShipDoor.triggerScript.interactable = false;
+
+            StartOfRound startOfRound = UnityEngine.Object.FindObjectOfType<StartOfRound>();
+            startOfRound.SetDoorsClosedServerRpc(true);
+
+        }
+        public static void OpenShipDoor()
+        {
+            Debug.Log("开舱门");
+
+            HangarShipDoor hangarShipDoor = UnityEngine.Object.FindObjectOfType<HangarShipDoor>();
+            hangarShipDoor.PlayDoorAnimation(false);
+            hangarShipDoor.overheated = true;
+            hangarShipDoor.triggerScript.interactable = false;
+
+            StartOfRound startOfRound = UnityEngine.Object.FindObjectOfType<StartOfRound>();
+            startOfRound.SetDoorsClosedServerRpc(false);
+
+
+        }
+
         public static void ModExperience(int amt, ActionType type)
         {
             int newAmt = amt;
@@ -609,6 +644,7 @@ namespace LethalMenu
         public static void Teleport(Vector3 pos, bool elevator = false, bool ship = false, bool factory = false) => LethalMenu.localPlayer.Handle().Teleport(pos, elevator, ship, factory);
         public static void KillPlayer(PlayerControllerB player) => player.Handle().Kill();
         public static void HealPlayer(PlayerControllerB player) => player.Handle().Heal();
+        public static void TeleportPlayer(PlayerControllerB player) => TeleportPlayerBehaviour.TeleportPlayer(player);
         public static void LightningStrikePlayer(PlayerControllerB player) => player.Handle().Strike();
         public static void ControlEnemy(EnemyAI enemy) => enemy.Handle().Control();
         public static void TeleportEnemy(PlayerControllerB player, EnemyAI[] enemies) => enemies.ToList().FindAll(e => !e.isEnemyDead).ForEach(e => e.Handle().Teleport(player));

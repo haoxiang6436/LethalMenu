@@ -1,4 +1,5 @@
 ﻿using GameNetcodeStuff;
+using LethalMenu.CustomCompany.Behaviour;
 using LethalMenu.Language;
 using LethalMenu.Menu.Core;
 using LethalMenu.Util;
@@ -62,7 +63,14 @@ namespace LethalMenu.Menu.Tab
                 {
                     name += $"[{Settings.c_deadPlayer.AsString("PlayerTab.DeadPrefix")}]";
                 }
-
+                if (player.isInHangarShipRoom)
+                {
+                    name += $"[{Localization.Localize("PlayerTab.IsInShip." + player.isInHangarShipRoom.ToString())}]";
+                }
+                if (player.isInsideFactory)
+                {
+                    name += $"[{Localization.Localize("PlayerTab.IsInFactory." + player.isInsideFactory.ToString())}]";
+                }
                 if (GUILayout.Button(name, GUI.skin.label)) selectedPlayer = (int)player.playerClientId;
 
                 GUI.contentColor = Settings.c_menuText.GetColor();
@@ -130,18 +138,20 @@ namespace LethalMenu.Menu.Tab
                 //PlayerInventoryListStr += Localization.Localize("Items." + item.name.Replace("(Clone)", ""))+" | ";
             }
             UI.Label(string.Join(" | ", PlayerInventoryList));
-
+            UI.Header("General.Spectators", true);
+            UI.Hack(Hack.ExplodeClosestMine, "PlayerTab.ExplodeMine", player);
+            UI.Hack(Hack.ForceBleed, "PlayerTab.ForceBleed", player);
             UI.Header("General.FriendlyActions", true);
             UI.Hack(Hack.HealPlayer, "PlayerTab.Heal", player);
             UI.Hack(Hack.Teleport, "PlayerTab.TeleportTo", player.transform.position, player.isInElevator, player.isInHangarShipRoom, player.isInsideFactory);
+            UI.Hack(Hack.TeleportPlayer, "PlayerTab.TeleportPlayer", player);
             UI.Header("General.SpoofActions", true);
             UI.Hack(Hack.KillPlayer, "PlayerTab.Kill", player);
             UI.Hack(Hack.LightningStrikePlayer, ["PlayerTab.Strike", "General.HostStormyTag"], player);
             UI.Hack(Hack.SpiderWebPlayer, "PlayerTab.SpiderWeb", player);
             UI.Hack(Hack.TeleportEnemy, "PlayerTab.TeleportAllEnemies", player, LethalMenu.enemies.ToArray());
             UI.Hack(Hack.LureAllEnemies, "PlayerTab.Lure", player);
-            UI.Hack(Hack.ExplodeClosestMine, "PlayerTab.ExplodeMine", player);
-            UI.Hack(Hack.ForceBleed, "PlayerTab.ForceBleed", player);
+
 
             if (player.playerClientId != GameNetworkManager.Instance.localPlayerController.playerClientId)
             {

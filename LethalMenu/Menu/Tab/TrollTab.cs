@@ -35,6 +35,8 @@ namespace LethalMenu.Menu.Tab
             UI.Hack(Hack.ToggleAllTurrets, "TrollTab.ToggleTurrets");
             UI.Hack(Hack.BerserkAllTurrets, "TrollTab.BerserkAllTurrets");
             UI.Hack(Hack.OpenShipDoorSpace, "TrollTab.OpenShipDoorSpace");
+            UI.Hack(Hack.OpenShipDoor, "TrollTab.OpenShipDoor");
+            UI.Hack(Hack.CloseShipDoor, "TrollTab.CloseShipDoor");
             UI.Hack(Hack.ForceTentacleAttack, "TrollTab.TentacleAttack");
             UI.Hack(Hack.FixAllValves, "TrollTab.FixValves");
             UI.Hack(Hack.SpawnMaskedEnemy, "TrollTab.SpawnMasks");

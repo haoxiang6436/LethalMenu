@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "LethalMenu": {
+      "commandName": "Project",
+      "commandLineArgs": "LethalMenu.Loader.Init();"
+    }
+  }
+}

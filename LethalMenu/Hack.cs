@@ -99,8 +99,7 @@ namespace LethalMenu
         Disconnect,
         Message,
         ResetShip,
-        OpenAllBigDoor,
-        CloseAllBigDoor,
+        ToggleAllBigDoor,
 
         /** Troll Tab **/
         ToggleShipLights,
@@ -353,8 +352,7 @@ namespace LethalMenu
             {Hack.TeleportOneItem, (Action) HackExecutor.TeleportOneItem},
             {Hack.EjectEveryone, (Action) HackExecutor.EjectEveryone},
             {Hack.JoinLobby, (Action<SteamId>) HackExecutor.JoinLobby},
-            {Hack.OpenAllBigDoor, (Action) HackExecutor.OpenAllBigDoor},
-            {Hack.CloseAllBigDoor, (Action) HackExecutor.CloseAllBigDoor},
+            {Hack.ToggleAllBigDoor, (Action) HackExecutor.ToggleAllBigDoor},
             {Hack.Disconnect, (Action) HackExecutor.Disconnect},
             {Hack.VoteShipLeaveEarly, (Action) HackExecutor.VoteShipLeaveEarly},
             {Hack.UnlockAllDoors, (Action) HackExecutor.UnlockAllDoors},
@@ -671,8 +669,7 @@ namespace LethalMenu
         public static void TeleportOneItem() => RoundHandler.TeleportOneItem();
         public static void EjectEveryone() => StartOfRound.Instance.ManuallyEjectPlayersServerRpc();
         public static void JoinLobby(SteamId id) => RoundHandler.JoinLobby(id);
-        public static void OpenAllBigDoor() => LethalMenu.bigDoors.ForEach(door => door.SetDoorOpenServerRpc(true));
-        public static void CloseAllBigDoor() => LethalMenu.bigDoors.ForEach(door => door.SetDoorOpenServerRpc(false));
+        public static void ToggleAllBigDoor() => LethalMenu.bigDoors.ForEach(door => door.SetDoorToggleLocalClient());
         public static void Disconnect() => RoundHandler.Disconnect();
         public static void VoteShipLeaveEarly() => TimeOfDay.Instance.VoteShipToLeaveEarly();
         public static void BerserkAllTurrets() => RoundHandler.BerserkAllTurrets();

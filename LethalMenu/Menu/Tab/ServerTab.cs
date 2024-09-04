@@ -109,8 +109,7 @@ namespace LethalMenu.Menu.Tab
             }));
 
 
-            UI.Hack(Hack.OpenAllBigDoor, "ServerTab.OpenAllBigDoor");
-            UI.Hack(Hack.CloseAllBigDoor, "ServerTab.CloseAllBigDoor");
+            UI.Hack(Hack.ToggleAllBigDoor, "ServerTab.ToggleAllBigDoor");
             UI.Hack(Hack.Disconnect, "ServerTab.Disconnect");
             UI.Hack(Hack.ShowOffensiveLobbyNames, "ServerTab.ShowOffensiveLobbyNames");
             UI.Hack(Hack.NeverLoseScrap, "ServerTab.NeverLoseScrap");

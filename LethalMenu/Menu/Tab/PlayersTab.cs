@@ -8,12 +8,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using UnityEngine;
+using static UnityEngine.InputSystem.InputRemoting;
+using UnityEngine.Rendering.HighDefinition;
+using Steamworks;
 
 namespace LethalMenu.Menu.Tab
 {
     internal class PlayersTab : MenuTab
     {
         public static int selectedPlayer = 0;
+        private string forge_message = "";
+        private string signal_message = "";
         private Vector2 scrollPos = Vector2.zero;
         private Vector2 scrollPos2 = Vector2.zero;
         public PlayersTab() : base("PlayerTab.Title") { }
@@ -87,6 +92,12 @@ namespace LethalMenu.Menu.Tab
         private void GeneralActions()
         {
             UI.Header("General.GeneralActions");
+            UI.TextboxAction("ServerTab.SignalTranslator", ref signal_message, @"", 30,
+                new UIButton("General.Execute", () => {
+                    if (signal_message != "")
+                    HUDManager.Instance.UseSignalTranslatorServerRpc(signal_message);
+                    signal_message = "";
+                }));
             UI.Hack(Hack.DeathNotifications, "PlayerTab.DeathNotifications");
             UI.Hack(Hack.FreeCam, "PlayerTab.FreeCam");
 
@@ -112,16 +123,6 @@ namespace LethalMenu.Menu.Tab
                 name = $"{Settings.c_deadPlayer.AsString("PlayerTab.DeadPrefix")} {name} ({Settings.c_causeOfDeath.AsString(player.deadBody.causeOfDeath.ToString())})";
 
             UI.Header(name);
-            UI.Header("PlayerTab.PlayerInfo");
-
-            //UI.Label("PlayerTab.SteamId", player.playerSteamId.ToString());
-            //UI.Label("PlayerTab.PlayerId", player.playerClientId.ToString());
-            //UI.Label("PlayerTab.PlayerStatus", player.isPlayerDead ? "PlayerTab.DeadPrefix" : "PlayerTab.AlivePrefix");
-            //UI.Label("PlayerTab.PlayerHealth", player.health.ToString());
-            //UI.Label("PlayerTab.IsHost", (player.actualClientId == 0 ? "True" : "False"));
-            //UI.Label("PlayerTab.IsInFactory", player.isInsideFactory.ToString());
-            //UI.Label("PlayerTab.IsInShip", player.isInHangarShipRoom.ToString());
-            //UI.Label("PlayerTab.Insanity", player.insanityLevel.ToString());
 
             UI.Label($"{Localization.Localize("PlayerTab.SteamId")} {Localization.Localize(player.playerSteamId.ToString())}");
             UI.Label($"{Localization.Localize("PlayerTab.PlayerId")} {Localization.Localize(player.playerClientId.ToString())}");
@@ -134,16 +135,20 @@ namespace LethalMenu.Menu.Tab
 
             GrabbableObject[] items = player.ItemSlots;
             List<String> PlayerInventoryList = new List<string>();
-            UI.Header("PlayerTab.Inventory", true);
-            foreach (GrabbableObject item in items)
+            if (items != null && items.Length > 0)
             {
-                if (item == null) continue;
-                PlayerInventoryList.Add(Localization.Localize("Items." + item.name.Replace("(Clone)", "")));
+                UI.Header("PlayerTab.Inventory", true);
+                foreach (GrabbableObject item in items)
+                {
+                    if (item == null) continue;
+                    PlayerInventoryList.Add(Localization.Localize("Items." + item.name.Replace("(Clone)", "")));
+                }
+                UI.Label(string.Join(" | ", PlayerInventoryList));
             }
-            UI.Label(string.Join(" | ", PlayerInventoryList));
-            UI.Header("General.Spectators", true);
+
             if (player.playerClientId != GameNetworkManager.Instance.localPlayerController.playerClientId)
             {
+            UI.Header("General.Spectators", true);
                 string btnText = Cheats.SpectatePlayer.isSpectatingPlayer(player) ? "General.Stop" : "PlayerTab.Spectate";
 
                 Action startAction = () =>
@@ -180,6 +185,14 @@ namespace LethalMenu.Menu.Tab
             UI.Hack(Hack.HealPlayer, "PlayerTab.Heal", player);
             UI.Hack(Hack.Teleport, "PlayerTab.TeleportTo", player.transform.position, player.isInElevator, player.isInHangarShipRoom, player.isInsideFactory);
             UI.Hack(Hack.TeleportPlayer, "PlayerTab.TeleportPlayer", player);
+            UI.TextboxAction("ServerTab.ForgeMessage", ref forge_message, @"", 30,
+            new UIButton("General.Execute", () => {
+                if (forge_message == "") return;
+                if (HUDManager.Instance.lastChatMessage == forge_message)
+                    forge_message += "\r";
+                HUDManager.Instance.AddTextToChatOnServer(forge_message, selectedPlayer);
+                forge_message = "";
+            }));
             UI.Header("General.SpoofActions", true);
             UI.Hack(Hack.KillPlayer, "PlayerTab.Kill", player);
             UI.Hack(Hack.LightningStrikePlayer, ["PlayerTab.Strike", "General.HostStormyTag"], player);

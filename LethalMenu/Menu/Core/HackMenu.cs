@@ -19,6 +19,7 @@ namespace LethalMenu.Menu.Core
         public PopupMenu LootManagerWindow = new LootManagerWindow(5);
         public PopupMenu WeatherManagerWindow = new WeatherManagerWindow(6);
         public PopupMenu SuitManagerWindow = new SuitManagerWindow(7);
+        public PopupMenu StoreManagerWindow = new StoreManagerWindow(7);
 
         public static List<MenuTab> menuTabs = new List<MenuTab>();
         private int selectedTab = 0;
@@ -122,6 +123,7 @@ namespace LethalMenu.Menu.Core
                 LootManagerWindow.Draw();
                 WeatherManagerWindow.Draw();
                 SuitManagerWindow.Draw();
+                StoreManagerWindow.Draw();
                 GUI.color = Color.white;
             }
         }

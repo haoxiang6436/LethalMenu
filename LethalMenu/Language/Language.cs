@@ -135,5 +135,10 @@ namespace LethalMenu.Language
         public static string[] LocalizeArray(string[] keys) => keys.Select(key => Localize(key)).ToArray();
         public static string Localize(string[] keys, bool newLine = false) => keys.Aggregate("", (current, key) => current + (newLine ? "\n" : " ") + Localize(key)).Substring(1);
         private static string LocalizeEnglish(string key) => _languages["English"].Localize(key);
+
+        internal static string Localize(object value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

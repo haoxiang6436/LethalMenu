@@ -134,6 +134,7 @@ namespace LethalMenu.Menu.Tab
             UI.Toggle("LootManager.Title", ref HackMenu.Instance.LootManagerWindow.isOpen, "General.Close", "General.Open");
             UI.Toggle("WeatherManager.Title", ref HackMenu.Instance.WeatherManagerWindow.isOpen, "General.Close", "General.Open");
             UI.Toggle("SuitManager.Title", ref HackMenu.Instance.SuitManagerWindow.isOpen, "General.Close", "General.Open");
+            UI.Toggle("StoreManager.Title", ref HackMenu.Instance.StoreManagerWindow.isOpen, "General.Close", "General.Open");
         }
 
         public static void ClearPlayerOptions()

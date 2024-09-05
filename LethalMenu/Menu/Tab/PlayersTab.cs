@@ -92,6 +92,8 @@ namespace LethalMenu.Menu.Tab
         private void GeneralActions()
         {
             UI.Header("General.GeneralActions");
+            UI.Button("PlayerTab.ResurrectTeammates", () => StartOfRound.Instance.Debug_ReviveAllPlayersServerRpc(), "General.Execute");
+            //UI.Button("PlayerTab.ResurrectTeammates", () => StartOfRound.Instance.ReviveDeadPlayers(), "General.Execute");
             UI.TextboxAction("ServerTab.SignalTranslator", ref signal_message, @"", 30,
                 new UIButton("General.Execute", () => {
                     if (signal_message != "")

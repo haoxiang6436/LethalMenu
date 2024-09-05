@@ -5,6 +5,7 @@ using LethalMenu.Menu.Tab;
 using LethalMenu.Util;
 using Steamworks;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using UnityEngine;
@@ -77,4 +78,29 @@ namespace LethalMenu
             }
         } 
     }
+    // Token: 0x02000009 RID: 9
+    [HarmonyPatch(typeof(StartOfRound))]
+    internal class StartOfRound_Patch
+    {
+        // Token: 0x0600003D RID: 61 RVA: 0x00003AEC File Offset: 0x00001CEC
+        [HarmonyPatch("Debug_ReviveAllPlayersServerRpc")]
+        [HarmonyTranspiler]
+        private static IEnumerable<CodeInstruction> Debug_ReviveAllPlayersServerRpcTranspiler(IEnumerable<CodeInstruction> instructions)
+        {
+            List<CodeInstruction> list = instructions.ToList<CodeInstruction>();
+            list[73].opcode = OpCodes.Nop;
+            return list;
+        }
+
+        // Token: 0x0600003E RID: 62 RVA: 0x00003B18 File Offset: 0x00001D18
+        [HarmonyPatch("Debug_ReviveAllPlayersClientRpc")]
+        [HarmonyTranspiler]
+        private static IEnumerable<CodeInstruction> Debug_ReviveAllPlayersClientRpcTranspiler(IEnumerable<CodeInstruction> instructions)
+        {
+            List<CodeInstruction> list = instructions.ToList<CodeInstruction>();
+            list[58].opcode = OpCodes.Nop;
+            return list;
+        }
+    }
+
 }

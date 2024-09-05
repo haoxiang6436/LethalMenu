@@ -150,6 +150,7 @@
 	"PlayerTab.Inventory": "玩家背包库存",
 	"PlayerTab.IsHost": "主机：",
 	"PlayerTab.ForceBleed": "强制流血(慎用，此操作不可逆)",
+	"PlayerTab.ResurrectTeammates": "复活所有队友（仅主机）",
 	"ServerTab.Title": "服务器",
 	"ServerTab.Message": "发送消息",
 	"ServerTab.NeverLoseScrap": "永不丢失废料",
@@ -615,6 +616,8 @@
 	"Items.ZeddogPlushie": "小狗玩偶",
 	"Items.ClipboardManual": "训练手册",
 	"Items.StickyNoteItem": "便签",
+	"Items.BeltBag": "腰包",
+	"Items.BeltBagItem": "腰包",
 
 	"UnlockableItems.Cozy lights": "舒适灯光",
 	"UnlockableItems.CozyLights": "舒适灯光",
@@ -714,6 +717,7 @@
 	"StoreManager.Radar-booster": "雷达发射器",
 	"StoreManager.Spray paint": "喷漆罐",
 	"StoreManager.Weed killer": "除草剂",
+	"StoreManager.Belt bag": "腰包",
 
 	"StoreManager.对讲机": "对讲机",
 	"StoreManager.手电筒": "手电筒",

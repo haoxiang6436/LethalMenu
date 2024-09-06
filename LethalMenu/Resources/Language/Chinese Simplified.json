@@ -351,8 +351,8 @@
 	"Enemies.FlowerSnakeEnemy": "郁金香蛇",
 	"Enemies.BushWolf": "灌木狼",
 	"Enemies.ClaySurgeon": "剪刀人",
-	"Enemies.CaveDweller": "洞穴居民（婴儿）",
-	"Enemies.CaveDwellerEnemy": "洞穴居民（婴儿）",
+	"Enemies.CaveDweller": "食人魔",
+	"Enemies.CaveDwellerEnemy": "食人魔",
 
 	"weather.DustClouds": "晴朗",
 	"weather.Rainy": "大雨",
@@ -719,6 +719,7 @@
 	"StoreManager.Weed killer": "除草剂",
 	"StoreManager.Belt bag": "腰包",
 
+	"StoreManager.腰包": "腰包",
 	"StoreManager.对讲机": "对讲机",
 	"StoreManager.手电筒": "手电筒",
 	"StoreManager.铲子": "铲子",

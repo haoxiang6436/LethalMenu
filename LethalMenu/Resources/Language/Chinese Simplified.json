@@ -155,6 +155,7 @@
 	"PlayerTab.IsHost": "主机:",
 	"PlayerTab.ForceBleed": "强制流血(慎用，此操作不可逆)",
 	"PlayerTab.ResurrectTeammates": "复活所有队友（仅主机）",
+	"PlayerTab.StartInverseTeleporter": "启动逆向传送器",
 	"ServerTab.Title": "服务器",
 	"ServerTab.Message": "发送消息",
 	"ServerTab.NeverLoseScrap": "永不丢失废料",

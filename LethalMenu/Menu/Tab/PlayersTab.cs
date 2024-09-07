@@ -59,11 +59,8 @@ namespace LethalMenu.Menu.Tab
                 if (selectedPlayer == (int)player.playerClientId) GUI.contentColor = Settings.c_playerESP.GetColor();
 
                 name = player.playerUsername;
-                if (LethalMenu.Instance.LMUsers.Any(u => u.SteamId == player.playerSteamId.ToString()) && Settings.b_DisplayLMUsers)
-                {
-                    var user = LethalMenu.Instance.LMUsers.FirstOrDefault(u => u.SteamId == player.playerSteamId.ToString());
-                    name = $"[LethalMenu {user.Version}] {player.playerUsername}";
-                }
+                if (LethalMenu.Instance.LMUsers.ContainsKey(player.playerSteamId.ToString()) && Settings.b_DisplayLMUsers)
+                    name = $"[LethalMenu {LethalMenu.Instance.LMUsers[player.playerSteamId.ToString()]}] {player.playerUsername}";
                 if (player.isPlayerDead && player.deadBody != null)
                 {
                     name += $"{Settings.c_deadPlayer.AsString("PlayerTab.DeadPrefix")}";

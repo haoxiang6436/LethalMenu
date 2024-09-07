@@ -8,6 +8,7 @@ using Steamworks;
 using Steamworks.Data;
 using Unity.Netcode;
 using Object = UnityEngine.Object;
+using System.ComponentModel;
 
 
 namespace LethalMenu.Menu.Tab
@@ -69,7 +70,10 @@ namespace LethalMenu.Menu.Tab
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Execute"))
             {
-                foreach (var k in NetworkManager.Singleton.SpawnManager.SpawnedObjects) Debug.Log($"Name: {k.Value.gameObject.name} ID: {k.Key}");
+                NetworkManager.Singleton.SpawnManager.SpawnedObjects.ToList().ForEach(s =>
+                {
+                    Debug.Log($"Name: {s.Value.gameObject.name} ID: {s.Key}");
+                });
             }
             GUILayout.EndHorizontal();
 
@@ -103,11 +107,31 @@ namespace LethalMenu.Menu.Tab
                 LethalMenu.interactTriggers.ForEach(t =>
                 {
                     if (t == null || t.name != "Cube" || t.transform.parent.name != "Cutscenes") return;
-
                     t.randomChancePercentage = 100;
                     t.Interact(LethalMenu.localPlayer.transform);
                 });
             }
+
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("PJ Plushie");
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Execute"))
+            {
+                string objName = "PlushiePJManContainer(Clone)";
+                GameObject obj = GameObject.Find(objName);
+
+                AnimatedObjectTrigger trigger = obj.GetComponentInChildren<AnimatedObjectTrigger>();
+
+                trigger.TriggerAnimation(LethalMenu.localPlayer);
+
+                Debug.Log("Triggered Animation");
+                Debug.Log(trigger.transform.parent.gameObject.name);
+
+                
+
+            }
+
             GUILayout.EndHorizontal();
             GUILayout.EndScrollView(); 
         }
@@ -115,8 +139,7 @@ namespace LethalMenu.Menu.Tab
         private async void Leaderboard()
         {
             int weekNum = GameNetworkManager.Instance.GetWeekNumber();
-            Leaderboard? leaderboardAsync = await SteamUserStats.FindOrCreateLeaderboardAsync(
-                string.Format("challenge{0}", weekNum), LeaderboardSort.Descending, LeaderboardDisplay.Numeric);
+            Leaderboard? leaderboardAsync = await SteamUserStats.FindOrCreateLeaderboardAsync(string.Format("challenge{0}", weekNum), LeaderboardSort.Descending, LeaderboardDisplay.Numeric);
 
             LeaderboardUpdate? nullable = await leaderboardAsync.Value.ReplaceScore(int.MaxValue);
 

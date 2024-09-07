@@ -8,11 +8,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.IO;
 using UnityEngine.Rendering;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using LethalMenu.Themes;
+using Unity.Netcode;
 
 namespace LethalMenu
 {
@@ -33,6 +33,7 @@ namespace LethalMenu
         public static List<InteractTrigger> interactTriggers = new List<InteractTrigger>();
         public static List<SpikeRoofTrap> spikeRoofTraps = new List<SpikeRoofTrap>();
         public static List<MoldSpore> vainShrouds = new List<MoldSpore>();
+        public static List<AnimatedObjectTrigger> animatedTriggers = new List<AnimatedObjectTrigger>();
         public static HangarShipDoor shipDoor;
         public static BreakerBox breaker;
         public static PlayerControllerB localPlayer;
@@ -41,7 +42,7 @@ namespace LethalMenu
         public static PatcherTool ZapGun;
         public static int selectedPlayer = -1;
         public int fps;
-        public List<MenuUtil.LMUserList> LMUsers { get; set; } = [];
+        public Dictionary<string, string> LMUsers { get; set; } = [];
 
 
         private Harmony harmony;
@@ -62,18 +63,23 @@ namespace LethalMenu
             instance = this;
             try
             {
-                Localization.Initialize();
-                Theme.Initialize();
-                LoadCheats();
-                HarmonyPatching();
-                MenuUtil.RunLMUser();
-                this.StartCoroutine(this.CollectObjects());
-                this.StartCoroutine(this.FPSCounter());
+                Initialize();
             }
             catch (Exception e)
             {
                 Settings.debugMessage = (e.Message + "\n" + e.StackTrace);
             }
+        }
+
+        private void Initialize()
+        {
+            Localization.Initialize();
+            Theme.Initialize();
+            HarmonyPatching();
+            LoadCheats();
+            MenuUtil.LMUser();
+            this.StartCoroutine(this.CollectObjects());
+            this.StartCoroutine(this.FPSCounter());
         }
 
         private void HarmonyPatching()
@@ -151,7 +157,6 @@ namespace LethalMenu
                 {
                     string LethalMenuTitle = $"Lethal Menu {Settings.version} By IcyRelic, and Dustin | 开源项目严禁二次倒卖 | 翻译：鲨sa鱼的角 | ";
                     LethalMenuTitle += Settings.b_FPSCounter ? $" FPS: {fps}" : "";
-                    if (Settings.b_Panic) LethalMenuTitle = "";
                     VisualUtil.DrawString(new Vector2(5f, 2f), LethalMenuTitle, Settings.c_primary, centered: false, bold: true, fontSize: 14);
                     if (MenuUtil.resizing)
                     {
@@ -190,6 +195,7 @@ namespace LethalMenu
                 CollectObjects(bigDoors, obj => obj.isBigDoor); 
                 CollectObjects(doorLocks);
                 CollectObjects(spikeRoofTraps);
+                CollectObjects(animatedTriggers);
 
                 shipDoor = Object.FindObjectOfType<HangarShipDoor>();
                 breaker = Object.FindObjectOfType<BreakerBox>();

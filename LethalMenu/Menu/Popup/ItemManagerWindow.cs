@@ -18,7 +18,7 @@ namespace LethalMenu.Menu.Popup
         private string s_scrapValue = "100";
         private string s_search = "";
 
-        public ItemManagerWindow(int id) : base("ItemManager.Title", new Rect(50f, 50f, 577f, 300f), id) { }
+        public ItemManagerWindow(int id) : base("ItemManager.Title", new Rect(50f, 50f, 750f, 300f), id) { }
 
         public override void DrawContent(int windowID)
         {
@@ -40,7 +40,6 @@ namespace LethalMenu.Menu.Popup
             GUILayout.Space(20);
 
             UI.ButtonGrid(StartOfRound.Instance.allItemsList.itemsList, (i) => Localization.Localize("Items."+i.name), s_search, (i) => SpawnItem(i), 3);
-            //UI.ButtonGrid(StartOfRound.Instance.allItemsList.itemsList, (i) => i.name, s_search, (i) => SpawnItem(i), 3);
 
             GUILayout.EndScrollView();
             GUI.DragWindow();

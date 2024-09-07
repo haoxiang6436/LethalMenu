@@ -66,13 +66,16 @@ namespace LethalMenu
         BridgeNeverFalls,
         DeleteHeldItem,
         DropAllItems,
-        ExtraItemSlots,
         UnlimitedPresents,
         VoteShipLeaveEarly,
         VehicleGodMode,
         EggsNeverExplode,
         UnlockAllDoors,
+        OpenAllBigDoors,
+        CloseAllBigDoors,
         GrabItemsBeforeGame,
+        ClickTeleport,
+        ClickTeleportAction,
 
         /** Server Tab **/
         ToggleAllDisplays,
@@ -99,6 +102,7 @@ namespace LethalMenu
         Disconnect,
         Message,
         ResetShip,
+        ItemSlots,
         ToggleAllBigDoor,
 
         /** Troll Tab **/
@@ -129,9 +133,9 @@ namespace LethalMenu
         TeleportAllItems,
         TeleportOneItem,
         EjectEveryone,
-        DeleteTerminal,
         OpenShipDoorSpace,
         BerserkAllTurrets,
+        PJSpammer,
 
         /** Visuals Tab **/
         ToggleAllESP,
@@ -154,6 +158,7 @@ namespace LethalMenu
         NoFog,
         NoVisor,
         NoFieldOfDepth,
+        FOV,
 
         /** Player Tab **/
         KillPlayer,
@@ -170,6 +175,9 @@ namespace LethalMenu
         ExplodeClosestMine,
         ForceBleed,
         EnemyControl,
+
+        /** Player Tab **/
+        ToggleTip,
     }
 
     public static class HackExtensions
@@ -270,7 +278,6 @@ namespace LethalMenu
             {Hack.NoFieldOfDepth, false},
             {Hack.NeverLoseScrap, false},
             {Hack.NoFlash, false},
-            {Hack.ExtraItemSlots, false},
             {Hack.TeleportWithItems, false},
             {Hack.OpenShipDoorSpace, false},
             {Hack.UnlimitedPresents, false},
@@ -286,6 +293,11 @@ namespace LethalMenu
             {Hack.UnlimitedZapGun, false},
             {Hack.ToggleTerminalSound, false},
             {Hack.GrabItemsBeforeGame, false},
+            {Hack.ClickTeleport, false},
+            {Hack.PJSpammer, false},
+            {Hack.ItemSlots, false},
+            {Hack.FOV, false},
+            {Hack.ToggleTip, true},
         };
 
         private static readonly Dictionary<Hack, Delegate> Executors = new Dictionary<Hack, Delegate>()
@@ -354,11 +366,11 @@ namespace LethalMenu
             {Hack.UnlockAllDoors, (Action) HackExecutor.UnlockAllDoors},
             {Hack.DropAllItems, (Action) HackExecutor.DropAllItems},
             {Hack.BerserkAllTurrets, (Action) HackExecutor.BerserkAllTurrets},
-            {Hack.DeleteTerminal, (Action) HackExecutor.DeleteTerminal},
             {Hack.ResetShip, (Action) HackExecutor.ResetShip},
             {Hack.ToggleAllDisplays, (Action) HackExecutor.ToggleAllDisplays},
             {Hack.ToggleTerminalSound, (Action) HackExecutor.ToggleTerminalSound},
             {Hack.DeleteHeldItem, (Action) HackExecutor.DeleteHeldItem},
+            {Hack.ClickTeleportAction, (Action) HackExecutor.ClickTeleport},
         };
 
         public static readonly Dictionary<Hack, ButtonControl> KeyBinds = new Dictionary<Hack, ButtonControl>()
@@ -366,7 +378,8 @@ namespace LethalMenu
             {Hack.OpenMenu, Keyboard.current.insertKey},
             {Hack.ToggleCursor, Keyboard.current.leftAltKey},
             {Hack.UnloadMenu, Keyboard.current.pauseKey},
-            {Hack.UnlockDoorAction, Keyboard.current.f1Key}
+            {Hack.UnlockDoorAction, Keyboard.current.f1Key},
+            {Hack.ClickTeleportAction, Mouse.current.middleButton}
         };
 
         public static void Execute(this Hack hack, params object[] param)
@@ -552,11 +565,15 @@ namespace LethalMenu
             }
         }
 
-        public static void UnlockAllDoors()
+        public static void ClickTeleport()
         {
-            foreach (var door in Object.FindObjectsOfType<DoorLock>().Where(doorLock => doorLock != null && doorLock.isLocked && !doorLock.isPickingLock).ToList())
+            if (!Hack.ClickTeleport.IsEnabled()) return;
+            PlayerControllerB player = GameNetworkManager.Instance.localPlayerController;
+
+            RaycastHit hitInfo;
+            if (Physics.Raycast(new Ray(CameraManager.ActiveCamera.transform.position, CameraManager.ActiveCamera.transform.forward), out hitInfo, 1000f, LayerMask.GetMask("Room")))
             {
-                door.UnlockDoorSyncWithServer();
+                player.TeleportPlayer(hitInfo.point);
             }
             HUDManager.Instance.DisplayTip("Lethal Menu", "所有门已解锁");
         }
@@ -597,7 +614,6 @@ namespace LethalMenu
         public static void ModScrap(int value, int type) => RoundHandler.ModScrap(value, type);
         public static void FlickerLights() => RoundHandler.FlickerLights();
         public static void SpawnMoreScrap() => RoundHandler.SpawnScrap();
-        public static void DeleteTerminal() => RoundHandler.DeleteTerminal();
         public static void ResetShip() => RoundHandler.ResetShip();
         public static void UnlockUnlockable(Unlockable unlockable, bool all, bool enabled) => RoundHandler.BuyUnlockable(unlockable, all, enabled);
         public static void UnlockUnlockableSuit(Unlockable unlockablesuit, bool wearbuy, bool buy, bool sound) => RoundHandler.BuyUnlockableSuit(unlockablesuit, wearbuy, buy, sound);
@@ -645,5 +661,8 @@ namespace LethalMenu
         public static void DropAllItems() => RoundHandler.DropAllItems();
         public static void ToggleTerminalSound() => RoundHandler.ToggleTerminalSound();
         public static void DeleteHeldItem() => RoundHandler.DeleteHeldItem();
+        public static void UnlockAllDoors() => RoundHandler.UnlockAllDoors();
+        public static void OpenAllBigDoors() => RoundHandler.OpenAllBigDoors();
+        public static void CloseAllBigDoors() => RoundHandler.CloseAllBigDoors();
     }
 }

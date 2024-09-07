@@ -1,5 +1,4 @@
-﻿
-using LethalMenu.Manager;
+﻿using LethalMenu.Manager;
 using LethalMenu.Menu.Core;
 using UnityEngine;
 using LethalMenu.Util;
@@ -88,12 +87,8 @@ namespace LethalMenu.Menu.Tab
             UI.TextboxAction(["ServerTab.ScrapValue", "General.HostTag"], ref s_scrapValue, @"[^0-9]", 3,
                 new UIButton("General.Set", () => Hack.ModifyScrap.Execute(int.Parse(s_scrapValue), 1))
             );
-
-            UI.Select("ServerTab.Message", ref i_messageindex, ref s_message, @"", 50, options.ToArray());
-
-            options.AddRange(LethalMenu.players.Select(player =>
-                new UIOption(player.playerUsername, () => Hack.Message.Execute(s_message, 4, (int)player.actualClientId)))
-            );
+            UpdatePlayerOptions();
+            UI.Select("ServerTab.Message", ref i_messageindex, ref s_message, @"", 50, options.ToArray());            
 
             UI.Hack(Hack.StartGame, "ServerTab.ForceLand");
             UI.Hack(Hack.EndGame, "ServerTab.ForceLeave");
@@ -104,7 +99,7 @@ namespace LethalMenu.Menu.Tab
                 new UIButton("General.Execute", () => GUIUtility.systemCopyBuffer = lobbyid)
             );
 
-            UI.TextboxAction("ServerTab.JoinLobby", ref s_joinlobbyid, @"", 20,
+            UI.TextboxAction("ServerTab.JoinLobby", ref s_joinlobbyid, @"[^0-9]", 20,
                 new UIButton("General.Execute", () => { if (ulong.TryParse(s_joinlobbyid, out var id)) Hack.JoinLobby.Execute(new SteamId { Value = id });
             }));
 
@@ -141,6 +136,14 @@ namespace LethalMenu.Menu.Tab
         {
             i_messageindex = 0;
             options = options.Take(4).ToList();
+        }
+
+        public static void UpdatePlayerOptions()
+        {
+            options = options.Take(4).ToList();
+            options.AddRange(LethalMenu.players.Select(player =>
+                new UIOption(player.playerUsername, () => Hack.Message.Execute(s_message, 4, (int)player.actualClientId)))
+            );
         }
     }
 }

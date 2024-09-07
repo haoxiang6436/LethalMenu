@@ -131,8 +131,6 @@ namespace LethalMenu
         EjectEveryone,
         DeleteTerminal,
         OpenShipDoorSpace,
-        OpenShipDoor,
-        CloseShipDoor,
         BerserkAllTurrets,
 
         /** Visuals Tab **/
@@ -328,8 +326,6 @@ namespace LethalMenu
             {Hack.DeathNotify, (Action<PlayerControllerB, CauseOfDeath>) HackExecutor.NotifyDeath},
             {Hack.SpectatePlayer, (Action<PlayerControllerB>) HackExecutor.SpectatePlayer},
             {Hack.MiniCam, (Action<PlayerControllerB>) HackExecutor.MiniCam},
-            {Hack.OpenShipDoor, (Action) HackExecutor.OpenShipDoor},
-            {Hack.CloseShipDoor, (Action) HackExecutor.CloseShipDoor},
             {Hack.UnlockUnlockable, (Action<Unlockable, bool, bool>) HackExecutor.UnlockUnlockable},
             {Hack.UnlockUnlockableSuit, (Action<Unlockable, bool, bool, bool>) HackExecutor.UnlockUnlockableSuit},
             {Hack.FlickerLights, (Action) HackExecutor.FlickerLights},
@@ -563,33 +559,6 @@ namespace LethalMenu
                 door.UnlockDoorSyncWithServer();
             }
             HUDManager.Instance.DisplayTip("Lethal Menu", "所有门已解锁");
-        }
-
-        public static void CloseShipDoor()
-        {
-            Debug.Log("关舱门");
-            HangarShipDoor hangarShipDoor = UnityEngine.Object.FindObjectOfType<HangarShipDoor>();
-            hangarShipDoor.PlayDoorAnimation(true);
-            hangarShipDoor.overheated = true;
-            hangarShipDoor.triggerScript.interactable = false;
-
-            StartOfRound startOfRound = UnityEngine.Object.FindObjectOfType<StartOfRound>();
-            startOfRound.SetDoorsClosedServerRpc(true);
-
-        }
-        public static void OpenShipDoor()
-        {
-            Debug.Log("开舱门");
-
-            HangarShipDoor hangarShipDoor = UnityEngine.Object.FindObjectOfType<HangarShipDoor>();
-            hangarShipDoor.PlayDoorAnimation(false);
-            hangarShipDoor.overheated = true;
-            hangarShipDoor.triggerScript.interactable = false;
-
-            StartOfRound startOfRound = UnityEngine.Object.FindObjectOfType<StartOfRound>();
-            startOfRound.SetDoorsClosedServerRpc(false);
-
-
         }
 
         public static void ModExperience(int amt, ActionType type)

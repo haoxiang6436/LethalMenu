@@ -90,6 +90,7 @@ namespace LethalMenu.Menu.Tab
         {
             UI.Header("General.GeneralActions");
             UI.Button("PlayerTab.ResurrectTeammates", () => StartOfRound.Instance.Debug_ReviveAllPlayersServerRpc(), "General.Execute");
+            //UI.Button("PlayerTab.ResurrectTeammates", () => StartOfRound.Instance.ReviveDeadPlayers(), "General.Execute");
             UI.TextboxAction("ServerTab.SignalTranslator", ref signal_message, @"", 30,
                 new UIButton("General.Execute", () => {
                     if (signal_message != "")
@@ -107,7 +108,6 @@ namespace LethalMenu.Menu.Tab
 
             UI.Button("PlayerTab.KillEveryone", () => LethalMenu.players.ForEach(p => Hack.KillPlayer.Execute(p)));
             UI.Button("PlayerTab.KillEveryoneElse", () => LethalMenu.players.FindAll(p => p.playerClientId != GameNetworkManager.Instance.localPlayerController.playerClientId).ForEach(p => Hack.KillPlayer.Execute(p)));
-            UI.Button("PlayerTab.StartInverseTeleporter", () => CustomCompany.Behaviour.TeleportPlayerBehaviour.StartShipInverseTeleporter());
         }
 
         private void PlayerActions()

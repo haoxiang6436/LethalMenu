@@ -12,7 +12,7 @@ using UnityEngine.Rendering;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using LethalMenu.Themes;
-using Unity.Netcode;
+using LethalMenu.Menu.Popup;
 
 namespace LethalMenu
 {
@@ -45,7 +45,7 @@ namespace LethalMenu
         public Dictionary<string, string> LMUsers { get; set; } = [];
 
 
-        private Harmony harmony;
+        public static Harmony harmony;
         private HackMenu menu;
         private static LethalMenu instance;
         public static LethalMenu Instance

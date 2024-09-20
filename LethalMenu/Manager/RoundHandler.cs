@@ -15,6 +15,9 @@ using System.Runtime.CompilerServices;
 using static System.Collections.Specialized.BitVector32;
 using LethalMenu.CustomCompany.Behaviour;
 using System.Collections.Generic;
+using DunGen;
+
+
 namespace LethalMenu.Manager
 {
     public enum ActionType {
@@ -25,8 +28,6 @@ namespace LethalMenu.Manager
 
     public class RoundHandler
     {
-        public static Dictionary<Hack, bool> StoredFlags = new Dictionary<Hack, bool>();
-
         public static void ModCredits(int amount, ActionType type)
         {
             if (GetTerminal() == null) return;           
@@ -44,7 +45,7 @@ namespace LethalMenu.Manager
 
         public static void Message(string msg, int type, int id)
         {
-            if (HUDManager.Instance == null) return;
+            if (HUDManager.Instance == null || string.IsNullOrEmpty(msg)) return;
             if (type == 4)
             {
                 if (HUDManager.Instance.lastChatMessage == msg) msg += "\u200B";
@@ -203,9 +204,9 @@ namespace LethalMenu.Manager
             if (itemToTeleport != null)
             {
                 Vector3 point = new Ray(LethalMenu.localPlayer.gameplayCamera.transform.position, LethalMenu.localPlayer.gameplayCamera.transform.forward).GetPoint(1f);
-                itemToTeleport.gameObject.transform.position = point;
-                itemToTeleport.startFallingPosition = point;
-                itemToTeleport.targetFloorPosition = point;
+                i.gameObject.transform.position = point;
+                i.startFallingPosition = point;
+                i.targetFloorPosition = point;
             }
         }
 
@@ -298,13 +299,30 @@ namespace LethalMenu.Manager
                 gameObject.GetComponent<NetworkObject>().Spawn(true);
             }
         }
+
         public static async void ToggleTerminalSound() => await SpamTerminalSound();
+
         public static async Task SpamTerminalSound()
         {
             while (Hack.ToggleTerminalSound.IsEnabled())
             {
-                if (GetTerminal() == null) await Task.Delay(10000);
+                if (GetTerminal() == null)
+                {
+                    await Task.Delay(10000);
+                    continue;
+                }
                 GetTerminal().PlayTerminalAudioServerRpc(1);
+                await Task.Delay(100);
+            }
+        }
+
+        public static async void CloseGate() => await ClosingGate();
+
+        public static async Task ClosingGate()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                LethalMenu.animatedTriggers.Where(t => t.name == "Cube" && t.transform.parent.name == "Cutscenes").ToList().ForEach(t => t.triggerAnimator?.SetTrigger("doorFall"));
                 await Task.Delay(100);
             }
         }
@@ -316,20 +334,48 @@ namespace LethalMenu.Manager
 
         public static void UnlockAllDoors()
         {
+            if (LethalMenu.doorLocks == null || HUDManager.Instance) return;
             LethalMenu.doorLocks.FindAll(door => door.isLocked).ForEach(door => door.UnlockDoorServerRpc());
             HUDManager.Instance.DisplayTip("Lethal Menu", "All Doors Unlocked");
         }
 
         public static void OpenAllBigDoors()
         {
-            LethalMenu.bigDoors.ForEach(door => door.SetDoorOpenServerRpc(true));
+            if (LethalMenu.bigDoors == null || HUDManager.Instance == null || RoundManager.Instance == null || LethalMenu.breaker == null) return;
+            if (LethalMenu.breaker.leversSwitchedOff > 0 || !LethalMenu.breaker.isPowerOn)
+            {
+                HUDManager.Instance.DisplayTip("Lethal Menu", "Please turn on Breaker power to use this!");
+                return;
+            }
+            if (RoundManager.Instance.powerOffPermanently) RoundManager.Instance.powerOffPermanently = false;
+            LethalMenu.bigDoors.ToList().ForEach(d => d.SetDoorOpenServerRpc(true));
             HUDManager.Instance.DisplayTip("Lethal Menu", "All Big Doors Opened");
         }
 
         public static void CloseAllBigDoors()
         {
-            LethalMenu.bigDoors.ForEach(door => door.SetDoorOpenServerRpc(false));
+            if (LethalMenu.bigDoors == null || HUDManager.Instance == null || RoundManager.Instance == null || LethalMenu.breaker == null) return;
+            if (LethalMenu.breaker.leversSwitchedOff > 0 || !LethalMenu.breaker.isPowerOn)
+            {
+                HUDManager.Instance.DisplayTip("Lethal Menu", "Please turn on Breaker power to use this!");
+                return;
+            }
+            if (RoundManager.Instance.powerOffPermanently) RoundManager.Instance.powerOffPermanently = false;
+            LethalMenu.bigDoors.ToList().ForEach(d => d.SetDoorOpenServerRpc(false));
             HUDManager.Instance.DisplayTip("Lethal Menu", "All Big Doors Closed");
+        }
+
+        public static void ForceMeteorShower()
+        {
+            if (!LethalMenu.localPlayer.IsHost || TimeOfDay.Instance == null) return;
+            TimeOfDay.Instance.MeteorWeather.BeginDay(TimeOfDay.Instance.normalizedTimeOfDay);
+        }
+
+        public static void ClearMeteorShower()
+        {
+            if (TimeOfDay.Instance.MeteorWeather.meteors.Count == 0 || !LethalMenu.localPlayer.IsHost || TimeOfDay.Instance == null) return;
+            HUDManager.Instance.DisplayTip("Lethal Menu", $"Cleared {TimeOfDay.Instance.MeteorWeather.meteors.Count} Meteors");
+            TimeOfDay.Instance.MeteorWeather.ResetMeteorWeather();
         }
 
         public static void ChangeMoon(int levelID)
@@ -337,6 +383,7 @@ namespace LethalMenu.Manager
             if (!(bool)StartOfRound.Instance) return;
             StartOfRound.Instance.ChangeLevelServerRpc(levelID, GetTerminal().groupCredits);
         }
+
         public static void FixAllValves() => LethalMenu.steamValves.ForEach(v => v.FixValveServerRpc());
         public static void ToggleAllLandmines() => LethalMenu.landmines.ForEach(mine => mine.ToggleMine(!Hack.ToggleAllLandmines.IsEnabled()));
         public static void ToggleAllTurrets() => LethalMenu.turrets.ForEach(turret => turret.turretActive = !Hack.ToggleAllTurrets.IsEnabled());

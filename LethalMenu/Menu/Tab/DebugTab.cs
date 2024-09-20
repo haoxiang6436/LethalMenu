@@ -8,7 +8,6 @@ using Steamworks;
 using Steamworks.Data;
 using Unity.Netcode;
 using Object = UnityEngine.Object;
-using System.ComponentModel;
 
 
 namespace LethalMenu.Menu.Tab
@@ -78,6 +77,15 @@ namespace LethalMenu.Menu.Tab
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
+            GUILayout.Label("Debug GetSpawnableMapObjects");
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Execute"))
+            {
+                GameUtil.GetSpawnableMapObjects().ToList().ForEach(o => Debug.Log(o.prefabToSpawn.name));
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
             GUILayout.Label("Goto Not Spawned");
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Execute"))
@@ -104,34 +112,21 @@ namespace LethalMenu.Menu.Tab
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Execute"))
             {
-                LethalMenu.interactTriggers.ForEach(t =>
-                {
-                    if (t == null || t.name != "Cube" || t.transform.parent.name != "Cutscenes") return;
-                    t.randomChancePercentage = 100;
-                    t.Interact(LethalMenu.localPlayer.transform);
-                });
+                LethalMenu.animatedTriggers.Where(t => t.name == "Cube" && t.transform.parent.name == "Cutscenes").ToList().ForEach(t => t.triggerAnimator?.SetTrigger("doorFall"));
             }
-
             GUILayout.EndHorizontal();
+
             GUILayout.BeginHorizontal();
             GUILayout.Label("PJ Plushie");
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Execute"))
             {
-                string objName = "PlushiePJManContainer(Clone)";
-                GameObject obj = GameObject.Find(objName);
-
+                GameObject obj = GameObject.Find("PlushiePJManContainer(Clone)");
                 AnimatedObjectTrigger trigger = obj.GetComponentInChildren<AnimatedObjectTrigger>();
-
                 trigger.TriggerAnimation(LethalMenu.localPlayer);
-
                 Debug.Log("Triggered Animation");
                 Debug.Log(trigger.transform.parent.gameObject.name);
-
-                
-
             }
-
             GUILayout.EndHorizontal();
             GUILayout.EndScrollView(); 
         }

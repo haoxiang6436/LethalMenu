@@ -42,7 +42,7 @@ namespace LethalMenu
             HackExtensions.ToggleFlags.Keys.ToList().ForEach(h => HackExtensions.ToggleFlags[h] = false);
             ChamHandler.ChamsSetEnabled(false);
             if (Cursor.visible) Hack.ToggleCursor.Execute();
-            LethalMenu.harmony.UnpatchAll("LethalMenu");
+            //LethalMenu.harmony.UnpatchAll("LethalMenu");
             Object.Destroy(Load);
         }
     }

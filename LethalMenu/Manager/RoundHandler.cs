@@ -204,9 +204,9 @@ namespace LethalMenu.Manager
             if (itemToTeleport != null)
             {
                 Vector3 point = new Ray(LethalMenu.localPlayer.gameplayCamera.transform.position, LethalMenu.localPlayer.gameplayCamera.transform.forward).GetPoint(1f);
-                i.gameObject.transform.position = point;
-                i.startFallingPosition = point;
-                i.targetFloorPosition = point;
+                itemToTeleport.gameObject.transform.position = point;
+                itemToTeleport.startFallingPosition = point;
+                itemToTeleport.targetFloorPosition = point;
             }
         }
 

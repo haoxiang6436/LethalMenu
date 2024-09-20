@@ -67,6 +67,31 @@ namespace LethalMenu.CustomCompany.Behaviour
             }
             return result;
         }
+        private static ShipTeleporter GetShipInverseTeleporter()
+        {
+            bool flag2 = TeleportPlayerBehaviour.shipInverseTeleporter != null;
+            ShipTeleporter result;
+            if (flag2)
+            {
+                result = TeleportPlayerBehaviour.shipInverseTeleporter;
+            }
+            else
+            {
+                ShipTeleporter[] array = UnityEngine.Object.FindObjectsOfType<ShipTeleporter>();
+                ShipTeleporter shipInverseTeleporter = null;
+                foreach (ShipTeleporter shipTeleporter2 in array)
+                {
+                    if (shipTeleporter2.isInverseTeleporter)
+                    {
+                        shipInverseTeleporter = shipTeleporter2;
+                        break;
+                    }
+                }
+                TeleportPlayerBehaviour.shipInverseTeleporter = shipInverseTeleporter;
+                result = TeleportPlayerBehaviour.shipInverseTeleporter;
+            }
+            return result;
+        }
 
         private static int SearchForPlayerInRadar(PlayerControllerB player)
         {
@@ -84,7 +109,14 @@ namespace LethalMenu.CustomCompany.Behaviour
             return result;
         }
 
+        public static void StartShipInverseTeleporter()
+        {
+            ShipTeleporter shipTeleporter = TeleportPlayerBehaviour.GetShipInverseTeleporter();
+            shipTeleporter.PressTeleportButtonOnLocalClient();
+        }
+
         private static ShipTeleporter shipTeleporter;
+        private static ShipTeleporter shipInverseTeleporter;
 
         private static Camera cmr;
 

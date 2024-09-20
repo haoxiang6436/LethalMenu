@@ -108,6 +108,7 @@ namespace LethalMenu.Menu.Tab
 
             UI.Button("PlayerTab.KillEveryone", () => LethalMenu.players.ForEach(p => Hack.KillPlayer.Execute(p)));
             UI.Button("PlayerTab.KillEveryoneElse", () => LethalMenu.players.FindAll(p => p.playerClientId != GameNetworkManager.Instance.localPlayerController.playerClientId).ForEach(p => Hack.KillPlayer.Execute(p)));
+            UI.Button("PlayerTab.StartInverseTeleporter", () => CustomCompany.Behaviour.TeleportPlayerBehaviour.StartShipInverseTeleporter());
         }
 
         private void PlayerActions()
@@ -144,17 +145,6 @@ namespace LethalMenu.Menu.Tab
                 }
                 UI.Label(string.Join(" | ", PlayerInventoryList));
             }
-
-            UI.Header("General.GeneralActions", true);
-            UI.Hack(Hack.Teleport, "PlayerTab.TeleportTo", player.transform.position, player.isInElevator, player.isInHangarShipRoom, player.isInsideFactory);
-            UI.Hack(Hack.KillPlayer, "PlayerTab.Kill", player);
-            UI.Hack(Hack.HealPlayer, "PlayerTab.Heal", player);
-            UI.Hack(Hack.LightningStrikePlayer, ["PlayerTab.Strike", "General.HostStormyTag"], player);
-            UI.Hack(Hack.SpiderWebPlayer, "PlayerTab.SpiderWeb", player);
-            UI.Hack(Hack.TeleportAllEnemies, "PlayerTab.TeleportAllEnemies", player, LethalMenu.enemies.ToArray());
-            UI.Hack(Hack.LureAllEnemies, "PlayerTab.Lure", player);
-            UI.Hack(Hack.ExplodeClosestMine, "PlayerTab.ExplodeMine", player);
-            UI.Hack(Hack.ForceBleed, "PlayerTab.ForceBleed", player);
 
             if (player.playerClientId != GameNetworkManager.Instance.localPlayerController.playerClientId)
             {

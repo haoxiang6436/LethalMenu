@@ -15,6 +15,7 @@ namespace LethalMenu.Menu.Tab
         private string s_quota = "";
         private string s_scrapAmount = "1";
         private string s_scrapValue = "1";
+        private string s_deadlineValue = "3";
         public static string s_message = "";
         public static int i_messageindex = 0;
         private string s_joinlobbyid = "";
@@ -80,6 +81,10 @@ namespace LethalMenu.Menu.Tab
                 new UIButton("General.Set", () => Hack.ModifyQuota.Execute(int.Parse(s_quota)))
             );
 
+            UI.TextboxAction(["ServerTab.EditDeadline", "General.HostTag"], ref s_deadlineValue, @"[^0-9]", 3,
+                new UIButton("General.Set", () => Hack.ModifyDeadline.Execute(int.Parse(s_deadlineValue)))
+            );
+
             UI.TextboxAction(["ServerTab.ScrapAmount", "General.HostTag"], ref s_scrapAmount, @"[^0-9]", 3,
                 new UIButton("General.Set", () => Hack.ModifyScrap.Execute(int.Parse(s_scrapAmount), 0))
             );
@@ -140,12 +145,10 @@ namespace LethalMenu.Menu.Tab
         {
             options = options.Take(4).ToList();
             if (clear) i_messageindex = 0;
-            if (!clear)
-            {
-                options.AddRange(LethalMenu.players.Select(player =>
-                    new UIOption(player.playerUsername, () => Hack.Message.Execute(s_message, 4, (int)player.actualClientId)))
-                );
-            }
+            if (clear) return;
+            options.AddRange(LethalMenu.players.Select(player =>
+                new UIOption(player.playerUsername, () => Hack.Message.Execute(s_message, 4, (int)player.actualClientId)))
+            );
         }
     }
 }

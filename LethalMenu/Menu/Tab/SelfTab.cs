@@ -1,3 +1,4 @@
+using DunGen;
 using GameNetcodeStuff;
 using LethalMenu.Language;
 using LethalMenu.Manager;
@@ -42,6 +43,7 @@ namespace LethalMenu.Menu.Tab
             UI.HackSlider(Hack.NoClip, "SelfTab.NoClip", Settings.f_noclipSpeed.ToString("0.0"), ref Settings.f_noclipSpeed, 10f, 30f);
             UI.HackSlider(Hack.ItemSlots, ["SelfTab.ItemSlots", "General.RejoinRequired"], Settings.f_slots.ToString("0.0"), ref Settings.f_slots, 1f, 20f);
             UI.Hack(Hack.ClickTeleport, "SelfTab.ClickTeleport");
+            UI.Hack(Hack.ClickKill, "SelfTab.ClickKill");
             UI.Hack(Hack.NightVision, "SelfTab.NightVision");
             UI.Hack(Hack.UnlimitedStamina, "SelfTab.UnlimitedStamina");
             UI.Hack(Hack.UnlimitedBattery, "SelfTab.UnlimitedBattery");
@@ -49,6 +51,8 @@ namespace LethalMenu.Menu.Tab
             UI.Hack(Hack.UnlimitedOxygen, "SelfTab.UnlimitedOxygen");
             UI.Hack(Hack.UnlimitedZapGun, "SelfTab.UnlimitedZapGun");
             UI.Hack(Hack.UnlimitedPresents, "SelfTab.UnlimitedPresents");
+            UI.Hack(Hack.UnlimitedTZP, "SelfTab.UnlimitedTZP");
+            UI.Hack(Hack.NoTZPEffects, "SelfTab.NoTZPEffects");
             UI.Hack(Hack.LootThroughWalls, "SelfTab.LootThroughWalls");
             UI.Hack(Hack.InteractThroughWalls, "SelfTab.InteractThroughWalls");
             UI.Hack(Hack.Reach, "SelfTab.Reach");
@@ -81,7 +85,10 @@ namespace LethalMenu.Menu.Tab
             UI.Hack(Hack.OpenAllBigDoors, "SelfTab.OpenAllBigDoors");
             UI.Hack(Hack.CloseAllBigDoors, "SelfTab.CloseAllBigDoors");
             UI.Hack(Hack.NoShipDoorClose, ["SelfTab.NoShipDoorClose", "General.HostTag"]);
-            UI.Hack(Hack.GrabItemsBeforeGame, "SelfTab.GrabItemsBeforeGame");
+            UI.Hack(Hack.LootBeforeGameStarts, "SelfTab.LootBeforeGameStarts");
+            UI.Hack(Hack.OpenDropShipLand, "SelfTab.OpenDropShipLand");
+            UI.Hack(Hack.LootAnyItemBeltBag, "SelfTab.LootAnyItemBeltBag");
+            UI.Hack(Hack.LootThroughWallsBeltBag, "SelfTab.LootThroughWallsBeltBag");
 
             GUILayout.EndScrollView();
         }
@@ -110,14 +117,12 @@ namespace LethalMenu.Menu.Tab
 
             if (!(bool)StartOfRound.Instance) return;
 
-            PlayerControllerB player = GameNetworkManager.Instance.localPlayerController;
-
             scrollPos2 = GUILayout.BeginScrollView(scrollPos2);
 
             UI.Hack(Hack.TeleportShip, "SelfTab.TeleportShip", "SelfTab.Teleport");
 
-            DoorTeleportLocations(player, LethalMenu.doors.FindAll(door => door.isEntranceToBuilding));
-            DoorTeleportLocations(player, LethalMenu.doors.FindAll(door => !door.isEntranceToBuilding));
+            DoorTeleportLocations(LethalMenu.doors.FindAll(door => door.isEntranceToBuilding));
+            DoorTeleportLocations(LethalMenu.doors.FindAll(door => !door.isEntranceToBuilding));
 
             UI.Hack(Hack.TeleportSavedPosition, "SelfTab.TeleportSaved", "SelfTab.Teleport");
             UI.Hack(Hack.SaveTeleportPosition, "SelfTab.SavePosition", "General.Save");
@@ -125,17 +130,14 @@ namespace LethalMenu.Menu.Tab
             GUILayout.EndScrollView();
         }
 
-        private void DoorTeleportLocations(PlayerControllerB player, List<EntranceTeleport> doors)
+        private void DoorTeleportLocations(List<EntranceTeleport> doors)
         {
             char c = 'A';
-            foreach (EntranceTeleport door in doors)
+            doors.ForEach(d =>
             {
-                string textKey = door.isEntranceToBuilding ? "SelfTab.TeleportEntrance" : "SelfTab.TeleportExit";
-                string localizedText = Localization.Localize(textKey);
-
-                UI.Hack(Hack.Teleport, $"{localizedText} {c}", door.entrancePoint.position, false, true, door.isEntranceToBuilding);
-                c++;
-            }
+                string type = d.isEntranceToBuilding ? "SelfTab.TeleportEntrance" : "SelfTab.TeleportExit";
+                UI.Hack(Hack.Teleport, $"{Localization.Localize(type)} {c++}", d.entrancePoint.position, false, true, d.isEntranceToBuilding);
+            });
         }
     }
 }

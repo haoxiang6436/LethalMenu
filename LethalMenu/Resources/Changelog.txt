@@ -1,76 +1,99 @@
 v1.4.5
-- 添加了“连衣裙女孩控制器”——你可以控制连衣裙女孩并追逐他人！
+- 添加了“穿裙女孩控制器”——你可以控制穿裙女孩并追逐他人！
 - 添加了“黏土外科医生控制器”——你可以控制黏土外科医生并切割他人！
 - 添加了“洞穴居民控制器”——你可以控制洞穴居民并跳到他人身上！
-- 添加了“反幽灵女孩”——幽灵女孩无法困扰你。
+- 添加了“反幽灵女孩”——幽灵女孩无法纠缠你。
 - 添加了“欢迎消息”——当你加入大厅时会有欢迎消息。
 - 添加了“敌人控制反扫描”——当你控制敌人时防止被扫描。
 - 添加了“鸡蛋总是爆炸”——让鸡蛋总是爆炸！
-- 添加了“无船门关闭（仅主机）”——当处于 0%状态时，船门保持关闭。
-- 添加了“强制流星雨（仅主机）”——强制引发流星雨。
-- 添加了“清除流星雨（仅主机）”——清除流星雨。
+- 添加了“无船门关闭（仅限主机）”——在进度为 0%时使船门保持关闭状态。
+- 添加了“强制流星雨（仅限主机）”——强制引发流星雨。
+- 添加了“清除流星雨（仅限主机）”——清除流星雨。
 - 添加了“双翅控制器”——为其添加了控制和能力。
 - 添加了“温顺蝗虫蜂控制器”——为其添加了控制但没有能力。
 - 添加了“敌人死亡通知”——当敌人死亡时通知你。
 - 添加了“杀敌通知”——当敌人被杀死或无法被杀死时通知你。
-- 添加了“敌人眩晕通知”——当敌人被眩晕或无法被眩晕时通知你。
-- 添加了“丛林狼敌人瞬间击杀”——将丛林狼敌人添加到瞬间击杀中。
-- 添加了“洞穴居民瞬间击杀”——将洞穴居民添加到瞬间击杀中。
-- 修复了“敌人控制器”——当敌人死亡或被摧毁时，敌人控制将被禁用。
-- 添加了“关闭大门”——关闭前门的实验大门。
-- 修复了“将敌人传送到玩家”——之前使用的是`EnemyAI[]`而不是`EnemyAI`。
+- 添加了“击晕敌人通知”——当敌人被击晕或无法被击晕时通知你。
+- 添加了“丛林狼敌人瞬杀”——将丛林狼敌人添加到瞬杀列表中。
+- 添加了“洞穴居民瞬杀”——将洞穴居民添加到瞬杀列表中。
+- 添加了“编辑截止时间（仅限主机）”——让你更改截止时间！
+- 添加了“陆地打开运输船”——运输船一着陆就打开。
+- 添加了“关闭大门”——关闭前门入口处的实验大门。
+- 添加了“任意物品腰带包拾取”——让你可以将任何物品放入腰带包中。
+- 添加了“穿墙腰带包拾取”——让你可以用腰带包穿墙拾取物品。
+- 添加了“点击杀敌”——当点击杀敌启用时，中键点击可杀死敌人。
+- 添加了“生命值显示”——在玩家 HUD 的角落显示你的生命值。
+- 添加了“无 TZP 负面效果”——没有来自 TZP 的负面效果。
+- 添加了“无限 TZP”——永远使用 TZP。
+- 为敌人控制器添加了“音频监听器”——你可以听到敌人周围的音频。
+- 修复了“敌人控制器”——当敌人死亡或被摧毁时，敌人控制会被禁用。
+- 修复了“将敌人传送到玩家处”——之前它使用的是 EnemyAI[]而不是 EnemyAI。
 - 修复了“Chams 错误”——修复了中途离开游戏时炮塔的 Chams 错误。
 - 修复了“上帝模式错误”——为所有上帝模式补丁添加了空值检查。
-- 修复了“切换终端声音错误”——修复了开启“切换终端声音”黑客功能后离开时的错误。
-- 修复了“打开所有门”——忘记将其添加到执行器中了 :C 并改进了其代码！
-- 修复了“关闭所有门”——忘记将其添加到执行器中了 :C 并改进了其代码！
-- 更改了“传送所有敌人”——更改了其使用的方法！
-- 更改了“卸载”——它尝试移除所有已启用的黑客功能并使一切恢复正常。
+- 修复了“切换终端声音错误”——修复了开启切换终端声音黑客功能后离开时的错误。
+- 修复了“打开所有门”——忘记将其添加到执行器中：C，并改进了其代码！
+- 修复了“关闭所有门”——忘记将其添加到执行器中：C，并改进了其代码！
+- 修复了“解锁所有门”——改进了代码并修复了我的错误。
+- 修复了“沙虫控制器”——在重置时添加了冷却时间。
+- 修复了“河豚控制器”——即使玩家不在附近也能使用能力。
+- 修复了“囤积者漏洞控制器”——修复了拾取物品不一致的问题。
+- 修复了“狒狒鸟控制器”——修复了拾取物品不一致的问题。
+- 将“生命值显示”更改为“玩家生命值显示”——以减少混淆。
+- 更改了“传送所有敌人”——更改了它使用的方法！
+- 更改了“游戏开始前拾取物品”——重新设计了它，以便在被禁用时恢复，并将其重命名为“游戏开始前拾取物品”。
+- 更改了“卸载”——它尝试移除所有启用的黑客功能并使一切恢复正常。
+- 更改了“解锁门”——改进了代码。
+- 更改了“敌人生成列表”——现在按字母顺序排列（A - Z）。
+- 更改了“敌人列表”——现在按字母顺序排列（A - Z）。
 
-v1.4.4
-- 增加了对等通信 - 在玩家选项卡中玩家名称前添加[致命菜单 {版本号}]（1.4.4+）
-- 在伪装切换中增加了新的敌人
-- 增加了在游戏开始前抓取物品 - 你可以拾取物品
-- 为显示选项增加了全部切换 - 增加了一个切换开关，用于启用和禁用所有显示选项
-- 增加了切换终端声音 - 重复播放终端声音
-- 在水印中添加了 Discord 链接
-- 增加了帧率计数器 - 显示你的帧率
-- 增加了载具上帝模式 - 巡洋舰不会受到伤害
-- 为信息显示增加了颜色自定义功能
-- 增加了作弊高亮 - 作弊功能会被高亮显示
-- 增加了作弊高亮自定义功能 - 设置被高亮显示的作弊功能的颜色
-- 增加了“发送信号” - 你可以作为信号发射器发送消息
-- 增加了消息前缀 - [系统]、[服务器]、[广播] - 你可以在聊天中以这些前缀发送消息，如[前缀] {消息}
-- 增加了以其他玩家身份发送消息的功能
-- 增加了套装管理器 - 查看所有套装，有全部购买和购买时穿戴功能
-- 增加了全部解锁套装 - 解锁所有套装
-- 在套装管理器中增加了购买时穿戴功能 - 购买套装并穿戴
-- 增加了蛋永不爆炸 - 复活节彩蛋在你扔出时永远不会爆炸
-- 增加了强制流血 - 强制其他玩家流血
-- 增加了无限电击枪 - 你可以永远电击
-- 增加了删除终端 - 将终端传送到(-1000,-1000,-1000)
-- 增加了重置船（仅主机） - 重置船的所有内容
-- 将丛林狼、辐射机甲和洞穴居民添加到引诱列表中
-- 增加了“恐慌” - 禁用所有作弊功能并隐藏水印
-- 增加了复制大厅 ID - 复制大厅 ID（只是主机的 Steam ID）
-- 增加了加入大厅 - 使用大厅 ID 加入
-- 为信息显示增加了颜色自定义功能 - 它会根据你的主颜色（c_primary color）变化
-- 修复了主题 - 它们现在保存在设置中并正确加载
-- 修复了永不失去废料 - 我之前忘记添加作弊功能启用的检查，现在已修复
-- 修复了首次设置管理器 - 按钮因样式问题相互重叠
-- 修复了尖刺屋顶陷阱的伪装 - 它们必须转换为游戏对象——感谢 IcyRelic
-- 修复了无雾 - 实验中使用了体积雾，现在已包含在内
-- 修复了玩家透视错误
-- 修复了无限礼物 - 现在不会使礼物无法丢弃
-- 修复了生成废料错误 - 为生成敌人和废料添加了检查
-- 修复了杀死所有敌人（仅主机） - 通过修复敌人击杀功能也修复了这个问题
-- 修复了敌人击杀（仅主机） - Zeekers 添加了一个糖果布尔值，只能在主机上更改
-- 修复了传送所有敌人
-- 更改了主题工具 - 现在它只被称为主题，更加整洁，并且更好地加载主题
-- 更改了商店扒手 - 它有更好的代码，现在使巡洋舰免费——感谢 IcyRelic
-- 更改了物品透视 - 使其不那么混乱
-- 更改了信息显示 - 添加了一种方法使其不那么混乱
-- 删除了丢弃所有玩家物品 - 我无法修复同步问题
+v1.4.4 
+- Added PJ Plushie Spammer - Spams PJ Plushies at a variable speed
+- Added Click Teleport - Teleport to where you click
+- Added Peer 2 Peer Communication - Adds [LethalMenu {version}] before their names in players tab (1.4.4+) 
+- Added New Enemies To Cham Toggles 
+- Added Grab Objects Before Game - You can pick up items
+- Added Toggle All For Displays - Added a toggle to enable and disable all display options
+- Added Toggle Terminal Sound - Spam the terminal sound
+- Added FPS Counter - Displays your FPS
+- Added Toggle Menu Tip - Adds a Toggle Menu: (Menu Key) to control tips
+- Added Vehicle Godmode - Cruiser doesn't take damage
+- Added Color Customization to info display
+- Added Hack Highlight - Hacks are highlighted
+- Added Hack Highlight Customization - Set the color of the highlighted hacks 
+- Added Transmitt - You can send messages as the signal transmitter
+- Added Message Prefixes - [System], [Server], [Broadcast] - You can send messages in chat as these prefixes like [Prefix] {message}
+- Added Message as other players 
+- Added Suit Manager - View all suits with buy all and wear on buy
+- Added Unlock All Suits - Unlocks all suits
+- Added Wear On Buy to suit manager - Buys the suit and wears 
+- Added Eggs Never Explode - Easter Eggs never explode when you throw them
+- Added Force Bleed - Force others players to bleed 
+- Added Unlimited Zap Gun - You can shock forever
+- Added Reset Ship (Host Only) - Resets everything about the ship
+- Added BushWolf, RadMech, and Cave Dweller to lure
+- Added Copy Lobby ID - Copy a lobby id (Its just the hosts steam id)
+- Added Join Lobby - Join using the lobby id
+- Added Color Customization To Info Display - It changes based on your c_primary color
+- Added Open All Big Doors - Opens all big doors
+- Added Close All Big Doors - Closes all big doors
+- Fixed Themes - They now save in settings and load properly 
+- Fixed Never Lose Scrap - I forgot to add the check for the hack being enabled but its fixed now
+- Fixed First Setup Manager - The buttons were overlapping themselves from a style
+- Fixed Spike Roof Trap Chams - They had to be converted to game objects -- Thanks IcyRelic
+- Fixed No Fog - Experimentation used a volume fog and its now included 
+- Fixed Player ESP Error 
+- Fixed Unlimited Presents - It doesn't make it impossible to drop the present now
+- Fixed SpawnScrap Error - Added a check for spawnEnemiesAndScrap
+- Fixed Kill all enemy (Host Only) - By fixing Enemy killing it fixed this aswell
+- Fixed Enemy killing (Host Only) - Zeekers added a candie bool which can only be changed on host
+- Fixed Teleport all enemies 
+- Changed Player Info - Added more info about the items in their inventory
+- Changed ThemeUtil - It is now just called Theme, way less messy, and better theme loading
+- Changed Shop Lifter - It has much better code and now makes crusier free -- Thanks IcyRelic
+- Changed Item ESP - Made it less messy
+- Changed Info Display - Added a method to make it less messy
+- Changed Item Manager - Made it bigger because the search translation was being cut off
+- Removed Drop All Player Items - I can't fix the syncing issue
 
 v1.4.3
 - �����˳����� - �õ�˲���ɱ

@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using System.Linq;
 using LethalMenu.Handler;
+using LethalMenu.Menu.Core;
 using Object = UnityEngine.Object;
 
 
@@ -11,19 +12,18 @@ namespace LethalMenu
 {
     public class Loader : MonoBehaviour
     {
-        private static GameObject Load;
+        public static GameObject Load;
         public static bool harmonyLoaded = false;
 
         public static void Init()
         {
-            if (Load == null)
-            {
-                ChamHandler.ChamsSetEnabled(true);
-                LoadHarmony();
-                Loader.Load = new GameObject();
-                Load.AddComponent<LethalMenu>();
-                Object.DontDestroyOnLoad(Loader.Load);
-            }
+            MenuFragment.InjectNotification();
+            if (Load != null) return;      
+            ChamHandler.ChamsSetEnabled(true);
+            LoadHarmony();
+            Loader.Load = new GameObject();
+            Load.AddComponent<LethalMenu>();
+            Object.DontDestroyOnLoad(Loader.Load);
         }
 
         public static void LoadHarmony()

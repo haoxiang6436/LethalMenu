@@ -10,6 +10,8 @@ using UnityEngine;
 using UnityEngine.InputSystem.Controls;
 using LethalMenu.Themes;
 using LethalMenu.Manager;
+using UnityEngine.InputSystem.XR;
+using UnityEngine.InputSystem;
 
 namespace LethalMenu.Menu.Tab
 {
@@ -286,7 +288,7 @@ namespace LethalMenu.Menu.Tab
                 if (hack.HasKeyBind() && hack != Hack.OpenMenu && hack != Hack.UnlockDoorAction && GUILayout.Button("-")) hack.RemoveKeyBind();
                 string btnText = hack.IsWaiting() ? "等待按下..." : kb;
                 if (GUILayout.Button(btnText, GUILayout.Width(85))) KBUtil.BeginChangeKeyBind(hack);
-               
+
                 GUILayout.EndHorizontal();
             }
             GUILayout.EndScrollView();

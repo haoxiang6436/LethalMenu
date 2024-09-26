@@ -15,7 +15,10 @@ using System.Runtime.CompilerServices;
 using static System.Collections.Specialized.BitVector32;
 using LethalMenu.CustomCompany.Behaviour;
 using System.Collections.Generic;
-using DunGen;
+using System.Numerics;
+using Vector3 = UnityEngine.Vector3;
+using Quaternion = UnityEngine.Quaternion;
+using static UnityEngine.EventSystems.EventTrigger;
 
 
 namespace LethalMenu.Manager
@@ -39,8 +42,22 @@ namespace LethalMenu.Manager
 
         public static void SetQuota(int amount)
         {
-            Object.FindObjectOfType<TimeOfDay>().profitQuota = amount;
+            if (TimeOfDay.Instance == null) return;
+            TimeOfDay.Instance.profitQuota = amount;
             TimeOfDay.Instance.SyncNewProfitQuotaClientRpc(TimeOfDay.Instance.profitQuota, 0, TimeOfDay.Instance.timesFulfilledQuota);
+        }
+
+        public static void SetDeadline(int amount)
+        {
+            if (TimeOfDay.Instance == null || HUDManager.Instance == null || !LethalMenu.localPlayer.IsHost) return;
+            if (!StartOfRound.Instance.inShipPhase)
+            {
+                HUDManager.Instance.DisplayTip("Lethal Menu", "You must be in orbit!");
+                return;
+            }
+            TimeOfDay.Instance.timeUntilDeadline = TimeOfDay.Instance.totalTime * amount;
+            TimeOfDay.Instance.UpdateProfitQuotaCurrentTime();
+            TimeOfDay.Instance.SyncTimeClientRpc(TimeOfDay.Instance.globalTime, (int)TimeOfDay.Instance.timeUntilDeadline);
         }
 
         public static void Message(string msg, int type, int id)
@@ -334,9 +351,16 @@ namespace LethalMenu.Manager
 
         public static void UnlockAllDoors()
         {
-            if (LethalMenu.doorLocks == null || HUDManager.Instance) return;
-            LethalMenu.doorLocks.FindAll(door => door.isLocked).ForEach(door => door.UnlockDoorServerRpc());
-            HUDManager.Instance.DisplayTip("Lethal Menu", "All Doors Unlocked");
+            if (LethalMenu.doorLocks == null || HUDManager.Instance == null) return;
+            List<DoorLock> ldoors = LethalMenu.doorLocks.Where(d => d != null && d.isLocked).ToList();
+            if (ldoors.Count == 0)
+            {
+                HUDManager.Instance.DisplayTip("Lethal Menu", $"No doors to unlock");
+                return;
+            }
+            ldoors.ToList().ForEach(d => d.UnlockDoorSyncWithServer());
+            string type = ldoors.Count == 1 ? "door" : "doors";
+            HUDManager.Instance.DisplayTip("Lethal Menu", $"Unlocked {ldoors.Count} {type}");
         }
 
         public static void OpenAllBigDoors()
@@ -382,6 +406,51 @@ namespace LethalMenu.Manager
         {
             if (!(bool)StartOfRound.Instance) return;
             StartOfRound.Instance.ChangeLevelServerRpc(levelID, GetTerminal().groupCredits);
+        }
+
+        public static void UnlockDoor()
+        {
+            if (!Hack.UnlockDoors.IsEnabled() || LethalMenu.localPlayer == null) return;
+            if (Physics.Raycast(CameraManager.ActiveCamera.transform.position, CameraManager.ActiveCamera.transform.forward, out RaycastHit hit, 5f, LayerMask.GetMask("InteractableObject")))
+            {
+                DoorLock d = hit.transform.GetComponent<DoorLock>();
+                if (!d.isLocked || d.isPickingLock) return;
+                d.UnlockDoorSyncWithServer();
+                HUDManager.Instance.DisplayTip("Lethal Menu", "Door Unlocked");
+            }
+            else
+            {
+                LethalMenu.turrets.ForEach(t => t.GetComponent<TerminalAccessibleObject>().CallFunctionFromTerminal());
+                LethalMenu.allTerminalObjects.ForEach(o =>
+                {
+                    Vector3 direction = o.transform.position - LethalMenu.localPlayer.transform.position;
+                    if (Vector3.Angle(LethalMenu.localPlayer.transform.forward, direction) < 60f && direction.magnitude < 5f)
+                    {
+                        string type = o.isBigDoor ? "Big Door" : (o.name == "TurretScript" ? "Turret" : o.name == "Landmine" ? "Landmine" : "Terminal Object");
+                        o.CallFunctionFromTerminal();
+                        HUDManager.Instance.DisplayTip("Lethal Menu", $"{type} ({o.objectCode}) has been called from the terminal");
+                    }
+                });
+            }
+        }
+
+        public static void ClickKill()
+        {
+            if (!Hack.ClickKill.IsEnabled() || Hack.ClickTeleport.IsEnabled() || CameraManager.ActiveCamera == null) return;
+            if (Physics.Raycast(CameraManager.ActiveCamera.transform.position, CameraManager.ActiveCamera.transform.forward, out RaycastHit hit, 1000f, LayerMask.GetMask("Enemies")))
+            {
+                EnemyAI enemy = hit.transform.GetComponentInParent<EnemyAI>() ?? hit.transform.GetComponentInChildren<EnemyAI>();
+                if (enemy != null && !enemy.isEnemyDead) enemy.Handle().Kill();
+            }
+        }
+
+        public static void ClickTeleport()
+        {
+            if (!Hack.ClickTeleport.IsEnabled() || Hack.ClickKill.IsEnabled() || CameraManager.ActiveCamera == null) return;
+            if (Physics.Raycast(CameraManager.ActiveCamera.transform.position, CameraManager.ActiveCamera.transform.forward, out RaycastHit hit, 1000f, LayerMask.GetMask("Room")))
+            {
+                LethalMenu.localPlayer.Handle().Teleport(hit.point);
+            }
         }
 
         public static void FixAllValves() => LethalMenu.steamValves.ForEach(v => v.FixValveServerRpc());

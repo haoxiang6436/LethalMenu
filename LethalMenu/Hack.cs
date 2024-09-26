@@ -69,6 +69,8 @@ namespace LethalMenu
         DeleteHeldItem,
         DropAllItems,
         UnlimitedPresents,
+        UnlimitedTZP,
+        NoTZPEffects,
         VoteShipLeaveEarly,
         VehicleGodMode,
         EggsNeverExplode,
@@ -77,9 +79,13 @@ namespace LethalMenu
         OpenAllBigDoors,
         CloseAllBigDoors,
         NoShipDoorClose,
-        GrabItemsBeforeGame,
+        LootBeforeGameStarts,
         ClickTeleport,
         ClickTeleportAction,
+        ClickKill,
+        ClickKillAction,
+        LootAnyItemBeltBag,
+        LootThroughWallsBeltBag,
 
         /** Server Tab **/
         ToggleAllDisplays,
@@ -110,6 +116,7 @@ namespace LethalMenu
         ForceMeteorShower,
         ClearMeteorShower,
         ToggleAllBigDoor,
+        OpenDropShipLand,
 
         /** Troll Tab **/
         ToggleShipLights,
@@ -129,6 +136,7 @@ namespace LethalMenu
         FlickerLights,
         FixAllValves,
         ModifyScrap,
+        ModifyDeadline,
         SpawnMaskedEnemy,
         BreakAllWebs,
         SpawnLandmine,
@@ -166,6 +174,7 @@ namespace LethalMenu
         NoVisor,
         NoFieldOfDepth,
         FOV,
+        HPDisplay,
 
         /** Player Tab **/
         KillPlayer,
@@ -204,6 +213,7 @@ namespace LethalMenu
             Hack.MiniCam,
             Hack.UnlockUnlockable,
             Hack.ModifyScrap,
+            Hack.ModifyDeadline,
             Hack.Message,
             Hack.SpiderWebPlayer,
             Hack.TeleportAllEnemies,
@@ -301,14 +311,21 @@ namespace LethalMenu
             {Hack.ForceBleed, false},
             {Hack.UnlimitedZapGun, false},
             {Hack.ToggleTerminalSound, false},
-            {Hack.GrabItemsBeforeGame, false},
+            {Hack.LootBeforeGameStarts, false},
             {Hack.ClickTeleport, false},
+            {Hack.ClickKill, false},
             {Hack.PJSpammer, false},
             {Hack.ItemSlots, false},
             {Hack.FOV, false},
             {Hack.AntiGhostGirl, false},
             {Hack.EggsAlwaysExplode, false},
             {Hack.NoShipDoorClose, false},
+            {Hack.OpenDropShipLand, false},
+            {Hack.LootAnyItemBeltBag, false},
+            {Hack.LootThroughWallsBeltBag, false},
+            {Hack.UnlimitedTZP, false},
+            {Hack.NoTZPEffects, false},
+            {Hack.HPDisplay, false},
         };
 
         private static readonly Dictionary<Hack, Delegate> Executors = new Dictionary<Hack, Delegate>()
@@ -323,6 +340,7 @@ namespace LethalMenu
             {Hack.SaveTeleportPosition, (Action) HackExecutor.SaveTeleportPosition},
             {Hack.ModifyCredits, (Action<int, ActionType>) HackExecutor.ModCredits},
             {Hack.ModifyQuota, (Action<int>) HackExecutor.ModQuota},
+            {Hack.ModifyDeadline, (Action<int>) HackExecutor.ModDeadline},
             {Hack.Message, (Action<string, int, int>) HackExecutor.Message},
             {Hack.SpawnMoreScrap, (Action) HackExecutor.SpawnMoreScrap},
             {Hack.EndGame, (Action) HackExecutor.EndGame},
@@ -385,6 +403,7 @@ namespace LethalMenu
             {Hack.CloseGate, (Action) HackExecutor.CloseGate},
             {Hack.DeleteHeldItem, (Action) HackExecutor.DeleteHeldItem},
             {Hack.ClickTeleportAction, (Action) HackExecutor.ClickTeleport},
+            {Hack.ClickKillAction, (Action) HackExecutor.ClickKill},
             {Hack.ForceMeteorShower, (Action) HackExecutor.ForceMeteorShower},
             {Hack.ClearMeteorShower, (Action) HackExecutor.ClearMeteorShower},
             {Hack.OpenAllBigDoors, (Action) HackExecutor.OpenAllBigDoors},
@@ -397,7 +416,8 @@ namespace LethalMenu
             {Hack.ToggleCursor, Keyboard.current.leftAltKey},
             {Hack.UnloadMenu, Keyboard.current.pauseKey},
             {Hack.UnlockDoorAction, Keyboard.current.f1Key},
-            {Hack.ClickTeleportAction, Mouse.current.middleButton}
+            {Hack.ClickTeleportAction, Mouse.current.middleButton},
+            {Hack.ClickKillAction, Mouse.current.middleButton}
         };
 
         public static void Execute(this Hack hack, params object[] param)
@@ -615,6 +635,9 @@ namespace LethalMenu
             else MenuUtil.HideCursor();
         }
 
+        public static void ClickKill() => RoundHandler.ClickKill();
+        public static void ClickTeleport() => RoundHandler.ClickTeleport();
+        public static void UnlockDoor() => RoundHandler.UnlockDoor();
         public static void UnloadMenu() => LethalMenu.Instance.Unload();
         public static void NotifyDeath(PlayerControllerB died, CauseOfDeath cause) => HUDManager.Instance.DisplayTip("Lethal Menu", $"{died.playerUsername} has died from {cause.ToString()}");
         public static void NotifyEnemyDeath(EnemyType enemy) => HUDManager.Instance.DisplayTip("Lethal Menu", $"{enemy.name} has died");
@@ -637,6 +660,7 @@ namespace LethalMenu
         public static void EndGame() => RoundHandler.EndGame();
         public static void StartGame() => RoundHandler.StartGame();
         public static void ModQuota(int amt) => RoundHandler.SetQuota(amt);
+        public static void ModDeadline(int amt) => RoundHandler.SetDeadline(amt);
         public static void Message(string msg, int type, int id) => RoundHandler.Message(msg, type, id);
         public static void ModCredits(int amt, ActionType type) => RoundHandler.ModCredits(amt, type);
         public static void BreakAllWebs() => RoundHandler.BreakAllWebs();

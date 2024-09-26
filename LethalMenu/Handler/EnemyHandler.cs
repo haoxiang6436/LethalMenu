@@ -352,7 +352,7 @@ namespace LethalMenu.Handler
 
         public void Kill(bool despawn = false)
         {
-            if (enemy == null || HUDManager.Instance == null) return;
+            if (enemy == null || HUDManager.Instance == null || enemy.isEnemyDead) return;
             if (!LethalMenu.localPlayer.IsHost && !enemy.enemyType.canDie)
             {
                 HUDManager.Instance.DisplayTip("Lethal Menu", "This enemy can't be killed without host");
@@ -382,6 +382,14 @@ namespace LethalMenu.Handler
             if (LethalMenu.localPlayer == null || enemy == null || HUDManager.Instance == null) return;
             enemy.ChangeEnemyOwnerServerRpc(LethalMenu.localPlayer.actualClientId);
             enemy.transform.position = player.transform.position;
+            enemy.SyncPositionToClients();
+        }
+
+        public void Teleport(Vector3 position)
+        {
+            if (LethalMenu.localPlayer == null || enemy == null || HUDManager.Instance == null) return;
+            enemy.ChangeEnemyOwnerServerRpc(LethalMenu.localPlayer.actualClientId);
+            enemy.transform.position = position;
             enemy.SyncPositionToClients();
         }
 

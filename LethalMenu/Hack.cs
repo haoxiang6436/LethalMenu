@@ -636,8 +636,8 @@ namespace LethalMenu
         }
 
         public static void ClickKill() => RoundHandler.ClickKill();
-        public static void ClickTeleport() => RoundHandler.ClickTeleport();
-        public static void UnlockDoor() => RoundHandler.UnlockDoor();
+        //public static void ClickTeleport() => RoundHandler.ClickTeleport();
+        //public static void UnlockDoor() => RoundHandler.UnlockDoor();
         public static void UnloadMenu() => LethalMenu.Instance.Unload();
         public static void NotifyDeath(PlayerControllerB died, CauseOfDeath cause) => HUDManager.Instance.DisplayTip("Lethal Menu", $"{died.playerUsername} has died from {cause.ToString()}");
         public static void NotifyEnemyDeath(EnemyType enemy) => HUDManager.Instance.DisplayTip("Lethal Menu", $"{enemy.name} has died");

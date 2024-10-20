@@ -110,6 +110,7 @@ namespace LethalMenu.Menu.Tab
             UI.Select("SettingsTab.Theme", ref i_themeIndex, Theme.GetThemes().Select(x => new UIOption(x, () => Theme.SetTheme(x))).ToArray());
             UI.Select("SettingsTab.Language", ref i_languageIndex, Localization.GetLanguages().Select(x => new UIOption(x, () => Localization.SetLanguage(x))).ToArray());
             UI.NumSelect("SettingsTab.FontSize", ref Settings.i_menuFontSize, 5, 30);
+            UI.NumSelect("SettingsTab.ScreenFontSize", ref Settings.i_screenFontSize, 5, 30);
             UI.NumSelect("SettingsTab.SliderSize", ref Settings.i_sliderWidth, 50, 120);
             UI.NumSelect("SettingsTab.TextboxSize", ref Settings.i_textboxWidth, 50, 120);
             UI.Slider("SettingsTab.MenuAlpha", Settings.f_menuAlpha.ToString("0.00"), ref Settings.f_menuAlpha, 0.1f, 1f);  
@@ -148,6 +149,56 @@ namespace LethalMenu.Menu.Tab
             UI.Checkbox("SettingsTab.DisableModels", ref Settings.b_disableSpectatorModels);
         }
 
+        private void ESPSettingsContent()
+        {
+            UI.Header("SettingsTab.ESP", true);
+            UI.SubHeader("SettingsTab.Chams");
+            UI.Checkbox("SettingsTab.ChamsDisableWithLOS", ref Settings.b_chamsDisableWithLOS);
+
+            GUILayout.BeginHorizontal();
+            GUILayout.BeginVertical(GUILayout.Width((f_leftWidth * 0.465f)));
+            UI.Checkbox("SettingsTab.Objects", ref Settings.b_chamsObject);
+            UI.Checkbox("SettingsTab.Enemies", ref Settings.b_chamsEnemy);
+            UI.Checkbox("SettingsTab.Players", ref Settings.b_chamsPlayer);
+            UI.Checkbox("SettingsTab.Landmines", ref Settings.b_chamsLandmine);
+            UI.Checkbox("SettingsTab.Breaker", ref Settings.b_chamsBreaker);
+            UI.Checkbox("SettingsTab.MineshaftElevator", ref Settings.b_chamsMineshaftElevator);
+            GUILayout.EndVertical();
+
+            GUILayout.BeginVertical(GUILayout.Width((f_leftWidth * 0.465f)));
+            UI.Checkbox("SettingsTab.Turrets", ref Settings.b_chamsTurret);
+            UI.Checkbox("SettingsTab.Ship", ref Settings.b_chamsShip);
+            UI.Checkbox("SettingsTab.SteamValves", ref Settings.b_chamsSteamHazard);
+            UI.Checkbox("SettingsTab.BigDoors", ref Settings.b_chamsBigDoor);
+            UI.Checkbox("SettingsTab.LockedDoors", ref Settings.b_chamsDoorLock);
+            UI.Checkbox("SettingsTab.SpikeRoofTrap", ref Settings.b_chamsSpikeRoofTrap);
+            GUILayout.EndVertical();
+
+            GUILayout.EndHorizontal();
+
+            UI.SubHeader("SettingsTab.EnemyTypes", true);
+
+            List<EnemyAIType> types = Enum.GetValues(typeof(EnemyAIType)).Cast<EnemyAIType>().ToList();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.BeginVertical(GUILayout.Width((f_leftWidth * 0.465f)));
+            for (int i = 0; i < types.Count / 2; i++)
+            {
+                EnemyAIType type = types[i];
+                if(type == EnemyAIType.Unknown) continue;
+                UI.Checkbox(type.ToString(), type.IsESPEnabled(), () => type.ToggleESP());
+            }
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical(GUILayout.Width((f_leftWidth * 0.465f)));
+            for (int i = types.Count / 2; i < types.Count; i++)
+            {
+                EnemyAIType type = types[i];
+                if (type == EnemyAIType.Unknown) continue;
+                UI.Checkbox(type.ToString(), type.IsESPEnabled(), () => type.ToggleESP());
+            }
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+        }
 
         private void ColorContent()
         {

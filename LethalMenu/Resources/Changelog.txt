@@ -1,3 +1,9 @@
+v1.4.6
+- Added Chams Disable w/ Line of Sight
+- Added Mineshaft Elevator to ESP and Chams
+- Fixed RadMechAI chams
+
+
 v1.4.5
 - 添加了“穿裙女孩控制器”——你可以控制穿裙女孩并追逐他人！
 - 添加了“黏土外科医生控制器”——你可以控制黏土外科医生并切割他人！

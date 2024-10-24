@@ -43,6 +43,9 @@
 	"SelfTab.UnlimitedBattery": "无限电池",
 	"SelfTab.UnlimitedAmmo": "无限弹药",
 	"SelfTab.UnlimitedPresents": "无限礼物",
+	"SelfTab.ClickKill":"点击击杀（需快捷键）",
+	"SelfTab.UnlimitedTZP":"无限TZP",
+"SelfTab.NoTZPEffects":"无TZP效果",
 	"SelfTab.UnlimitedOxygen": "无限氧气",
 	"SelfTab.UnlimitedZapGun": "无限电击枪",
 	"SelfTab.LootThroughWalls": "穿墙拾取",
@@ -90,6 +93,29 @@
 	"SelfTab.ClickTeleport": "点击传送准星处(需设置快捷键)",
 	"SelfTab.NoShipDoorClose": "飞船门保持关闭（防止0%状态自动开门）",
 	"SelfTab.AntiGhostGirl": "防止小女孩纠缠",
+	"SelfTab.LootBeforeGameStarts": "游戏开始前拾取",
+	"SelfTab.OpenDropShipLand":"打开空投船降落",
+	"SelfTab.LootAnyItemBeltBag": "腰带包拾取任何物品",
+	"SelfTab.LootThroughWallsBeltBag":"腰带包穿墙拾取",
+	"SelfTab.AntiKick": "防踢出",
+	"SelfTab.FixValves":"修复所有阀门",
+	"SelfTab.SellEverything": "出售所有物品",
+	"SelfTab.SellQuota":"仅出售配额",
+	"SelfTab.TeleportAllItems": "传送所有物品",
+	"SelfTab.TeleportOneItem": "传送单个物品",
+	"SelfTab.FullRenderResolution": "全分辨率渲染",
+	
+
+
+
+
+
+
+
+
+
+
+
 
 	"EnemyTab.Title": "敌人",
 	"EnemyTab.EnemyList": "敌人列表",
@@ -208,6 +234,8 @@
 	"ServerTab.ClearMeteorShower": "清理流星雨",
 	"TrollTab.Title": "恶搞",
 	"TrollTab.TerminalSound": "终端的声音",
+	 "TrollTab.ToggleDepositDeskDoorSound":"公司寄存台门的声音（噪音）",
+	 "TrollTab.SpawnHoardingBugInfestation":"生成大量囤积虫",
 	"TrollTab.ShipHorn": "切换船喇叭",
 	"TrollTab.ShipLights": "切换船灯",
 	"TrollTab.FactoryLights": "切换工厂灯",
@@ -692,7 +720,6 @@
 	"UnlockableItems.DiscoBall": "迪斯科球",
 	"UnlockableItems.Plushie pajama man": "毛绒睡衣",
 	"UnlockableItems.PlushiePajamaMan": "毛绒睡衣",
-	// suit
 	"UnlockableItems.Purple Suit": "紫色套装",
 	"UnlockableItems.Hazard suit": "危险防护服",
 	"UnlockableItems.Pajama suit": "睡衣套装",

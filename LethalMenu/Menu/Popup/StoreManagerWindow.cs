@@ -14,12 +14,12 @@ namespace LethalMenu.Menu.Popup
     {
         private Vector2 scrollPos = Vector2.zero;
         private Terminal terminal;
-        private string str_buyNum = "1";
+        private string str_buyNum = "5";
         private static int itemIndex = -1;
         private static string itemName = string.Empty;
         private string s_search = "";
 
-        public StoreManagerWindow(int id) : base("UnlockableManager.Title", new Rect(50f, 50f, 562f, 225f), id) { }
+        public StoreManagerWindow(int id) : base("StoreManager.Title", new Rect(50f, 50f, 562f, 325f), id) { }
 
         public override void DrawContent(int windowID)
         {
@@ -40,8 +40,6 @@ namespace LethalMenu.Menu.Popup
                     num -= 10;
                     terminal.BuyItemsServerRpc(ls.ToArray(), terminal.groupCredits, 0);
                 }
-                itemIndex = -1;
-                itemName = string.Empty;
             }));
             List<Item> itemList = RoundHandler.GetTerminal().buyableItemsList.ToList();
             Dictionary<string, int> itemNameToIndex = new Dictionary<string, int>();

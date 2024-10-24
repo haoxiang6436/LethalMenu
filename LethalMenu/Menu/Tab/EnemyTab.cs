@@ -134,15 +134,13 @@ namespace LethalMenu.Menu.Tab
 
             string s_target = selectedPlayer == null ? "None" : selectedPlayer.playerUsername;
 
-            if(Enum.TryParse(enemy.currentBehaviourStateIndex.ToString(), out Handler.Behaviour behavior))
-                UI.Label("EnemyTab.Behaviour", behavior.ToString());
+            if(Enum.TryParse(enemy.currentBehaviourStateIndex.ToString(), out Handler.Behaviour behavior)) UI.Label("EnemyTab.Behaviour", behavior.ToString());
 
             UI.Label("EnemyTab.SelectedPlayer", Settings.c_playerESP.AsString(s_target));
 
             UI.Label("EnemyTab.Targeting", (enemy.targetPlayer == null ? "None" : enemy.targetPlayer.playerUsername));
 
-            if(enemy is DressGirlAI girl)
-                UI.Label("EnemyTab.Haunting", (girl.hauntingPlayer == null ? "None" : girl.hauntingPlayer.playerUsername));
+            if(enemy is DressGirlAI girl) UI.Label("EnemyTab.Haunting", (girl.hauntingPlayer == null ? "None" : girl.hauntingPlayer.playerUsername));
 
             UI.Header("EnemyTab.EnemyActions", true);
 
@@ -150,10 +148,10 @@ namespace LethalMenu.Menu.Tab
             if (enemy is SandSpiderAI spider) UI.Button("EnemyTab.SpawnWeb", () => { spider.SpawnWeb(spider.abdomen.position); });
 
             UI.Button("EnemyTab.KillEnemy", () => { enemy.Handle().Kill(); });
+            UI.Button("EnemyTab.StunEnemy", () => { enemy.Handle().Stun(); });
             UI.Button("EnemyTab.TargetSelectedPlayer", () => { enemy.Handle().TargetPlayer(selectedPlayer); });
             
-            if(enemy.Handle().HasInstaKill())
-                UI.Button("EnemyTab.KillSelectedPlayer", () => { enemy.Handle().KillPlayer(selectedPlayer); });
+            if(enemy.Handle().HasInstaKill()) UI.Button("EnemyTab.KillSelectedPlayer", () => { enemy.Handle().KillPlayer(selectedPlayer); });
 
             UI.Hack(Hack.TeleportEnemy, "EnemyTab.TeleportSelectedPlayer", selectedPlayer, enemy);
             UI.Hack(Hack.EnemyControl, "EnemyTab.ControlEnemy", enemy);
@@ -171,7 +169,7 @@ namespace LethalMenu.Menu.Tab
             UI.Label("EnemyTab.SelectedType", type.name, Settings.c_enemyESP);
             UI.Textbox("EnemyTab.SpawnAmount", ref s_spawnAmount, @"[^0-9]");
 
-            UI.Checkbox("EnemyTab.SpawnOutside", ref b_spawnOutside);
+            if (type.enemyName != "Bush Wolf") UI.Checkbox("EnemyTab.SpawnOutside", ref b_spawnOutside);
             UI.Button("EnemyTab.Spawn", () => HackExecutor.SpawnEnemy(type, int.Parse(s_spawnAmount), b_spawnOutside));
         }
         // 获取敌人

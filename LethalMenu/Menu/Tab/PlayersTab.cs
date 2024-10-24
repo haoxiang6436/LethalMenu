@@ -1,4 +1,5 @@
 ﻿using GameNetcodeStuff;
+using LethalMenu.Cheats;
 using LethalMenu.CustomCompany.Behaviour;
 using LethalMenu.Language;
 using LethalMenu.Menu.Core;
@@ -182,9 +183,9 @@ namespace LethalMenu.Menu.Tab
                 UI.Button("PlayerTab.MiniCam", action, btnText);
             }
             UI.Header("General.FriendlyActions", true);
+            UI.Hack(Hack.TeleportPlayer, "PlayerTab.TeleportPlayer", player);
             UI.Hack(Hack.HealPlayer, "PlayerTab.Heal", player);
             UI.Hack(Hack.Teleport, "PlayerTab.TeleportTo", player.transform.position, player.isInElevator, player.isInHangarShipRoom, player.isInsideFactory);
-            UI.Hack(Hack.TeleportPlayer, "PlayerTab.TeleportPlayer", player);
             UI.TextboxAction("ServerTab.ForgeMessage", ref forge_message, @"", 30,
             new UIButton("General.Execute", () => {
                 if (forge_message == "") return;
@@ -200,10 +201,7 @@ namespace LethalMenu.Menu.Tab
             UI.Hack(Hack.TeleportEnemy, "PlayerTab.TeleportAllEnemies", player, LethalMenu.enemies.ToArray());
             UI.Hack(Hack.LureAllEnemies, "PlayerTab.Lure", player);
             UI.Hack(Hack.ExplodeClosestMine, "PlayerTab.ExplodeMine", player);
-            UI.Hack(Hack.ForceBleed, "PlayerTab.ForceBleed", player);
-
-
-
+            //UI.Hack(Hack.ForceBleed, "PlayerTab.ForceBleed", player);
         }
     }
 }

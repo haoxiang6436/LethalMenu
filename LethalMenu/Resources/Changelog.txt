@@ -1,4 +1,4 @@
-v1.4.6
+v1.4.5
 - Added Chams Disable w/ Line of Sight
 - Added Mineshaft Elevator to ESP and Chams
 - Fixed RadMechAI chams
@@ -51,6 +51,69 @@ v1.4.5
 - 更改了“解锁门”——改进了代码。
 - 更改了“敌人生成列表”——现在按字母顺序排列（A - Z）。
 - 更改了“敌人列表”——现在按字母顺序排列（A - Z）。
+- Added Dress Girl Controller - You can control the dress girl and chase people!
+- Added Clay Surgeon Controller - You can control the Clay Surgeon and cut people up!
+- Added Cave Dweller Controller - You can control the Cave Dweller and jump on peoples!!
+- Added Anti Ghost Girl - Ghost girl can't haunt you
+- Added Welcome Message - Welcome message when you join a lobby
+- Added Enemy Control Anti Scan - Prevents you from scanning when controlling a enemy
+- Added Eggs Always Explode - Makes eggs always explode!
+- Added No Ship Door Close (Host Only) - Makes the ship door stay closed when at 0%
+- Added Force Meteor Shower (Host Only) - Forces a meteor shower 
+- Added Clear Meteor Shower (Host Only) - Clears a meteor shower
+- Added Double Wing Controller - Added controls and abilities for it 
+- Added Docile Locust Bees Controller - Added controls for it but it has no abilities 
+- Added Enemy Death Notifications - Notifes you when a enemy dies
+- Added Notification to Kill Enemy - Notifies you when a enemy is killed or can't be killed
+- Added Notification to Stun Enemy -  Notifies you when a enemy is stunned or can't be stunned
+- Added Bush Wolf to enemy spawner - You can spawn the Bush Wolf in the enemy tab enemy spawner
+- Added Bush Wolf Enemy Insta Kill - Added Bush Wolf Enemy to Insta Kill
+- Added Cave Dweller Insta Kill - Added Cave Dweller to Insta Kill
+- Added Edit Deadline (Host Only) - Lets you change the deadline!
+- Added Open Drop Ship On Land - Opens drop ship as soon as it lands!
+- Added Close Gate - Closes Experimentation gate at the front entrance
+- Added Loot Any Item Belt Bag - Lets you put any items in the belt bag
+- Added Loot Through Walls Belt Bag - Lets you loot through walls with the belt bag
+- Added Click Kill - Middle Click to kill enemies when click kill is enabled
+- Added HP Display - Shows your hp in your the corner of the Player HUD
+- Added No TZP Effects - No negative effects from TZP
+- Added Unlimited TZP - Use TZP forever
+- Added Audio Listener for enemy controllers - You can hear the audio around the enemy
+- Added Demi God - Sets players health to 100 when its not for people you enable it for
+- Added Notifications - Used for injection message and version messages
+- Added Anti Kick (BUGGY) - Its only enabled after being kicked from the lobby might cause your name to be nameless and profile to be the Lethal Company logo
+- Added Sell Quota - Sells as much as quota needs if there is enough items
+- Added Stun - You can stun a single enemy like you can kill it
+- Added Toggle Deposit Desk Door Sound - Spam opens the door making the door opening sound
+- Added Spawn Hoarding Bug Infestation - Spawns a ton of Hoarding Bugs
+- Fixed Turret Chams Error - When you left the moon it would cause a error
+- Fixed Enemy Controller - Enemy control gets disabled when the enemy dies or gets destroyed
+- Fixed Teleport Enemy To Player - It was using EnemyAI[] instead of EnemyAI
+- Fixed Chams Error - Fixed a chams error with turrets when you left mid game
+- Fixed God Mode Error - Added null checks to all god mode patches
+- Fixed Toggle Terminal Sound Error - Fixed error when you leave with Toggle Terminal Sound hack on 
+- Fixed Open All Doors - Forgot to add it to executors :C and improved its code!
+- Fixed Close All Doors - Forgot to add it to executors :C and improved its code!
+- Fixed Unlock all doors - Improved the code and fixed my mistake
+- Fixed Sand Worm Controller - Added a cooldown while it resets
+- Fixed Puffer Controller - Able to do abilities while players aren't nearby
+- Fixed Hoarder Bug Controller - Fixed picking up items being inconsistent
+- Fixed Baboon Bird Controller - Fixed picking up items being inconsistent
+- Fixed RadMechAI chams - Its now applied to the body not the particles from the stepping
+- Fixed Item ESP - Items in the belt bag don't show up on the esp anymore
+- Changed Body ESP - Made body esp its own toggle instead of being inside the item 
+- Changed HP Display to Player HP Display - To cause less confusion
+- Changed Teleport All Enemies - Changed the method it used!
+- Changed Grab Items Before Game - Redid it so its reverts if it gets disabled and renamed it to Loot Before Game Starts
+- Changed Unload - It attempts to remove all enabled hacks and make everything normal
+- Changed Unlock Door - Improved the code 
+- Changed Enemy Spawn List - Goes by the alphabet now (A - Z)
+- Changed Enemy List - Goes by the alphabet now (A - Z)
+- Changed Use Default Chams - Now its on by default
+- Changed Heal - It doesn't make sound when you heal them now
+- Changed Kill - It does the player hp instead of 1000
+- Changed moved Fix Valves, Sell Everything, Teleport All Items, Teleport One Item from troll tab to self tab
+- Removed Force Bleed - Too many bugs
 
 v1.4.4 
 - Added PJ Plushie Spammer - Spams PJ Plushies at a variable speed
